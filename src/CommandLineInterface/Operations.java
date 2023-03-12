@@ -1,14 +1,14 @@
 package CommandLineInterface;
 
+import CommandLineInterface.Parsers.FileParser;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Operations<T extends XMLParser> {
+public class Operations<T extends FileParser> {
     //Members~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    private ArrayList<Object> fileContent=null;
-    //private String currentlyFilePath=null;
-    private T fileParser;
+    private final T fileParser;
 
     //Constructors~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public Operations(T fileParser) {
@@ -16,22 +16,20 @@ public class Operations<T extends XMLParser> {
     }
 
     //Methods~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    public boolean open(String fileDirectory){
-        if(fileParser.getFile() !=null)
-           System.out.println("There is currently opened file:"+fileParser.getFile().getAbsolutePath());
+    public void open(String fileDirectory){
+        if(fileParser.getFile() !=null) {
+            System.out.println("There is currently opened file:" + fileParser.getFile().getAbsolutePath());
+            return;
+        }
 
         try {
-            fileContent = fileParser.readFile(fileDirectory);
+            fileParser.setFileContent(fileParser.readFile(fileDirectory));
             System.out.println("File successfully opened:"+fileDirectory);
 
-            if(fileContent==null)
+            if(fileParser.getFileContent()==null)
                 System.out.println("File is empty");
 
             fileParser.setFile(new File(fileDirectory));
-
-            //currentlyFilePath=fileDirectory;
-            return true;
-
         }
         catch (IOException e) {
             System.out.println("File not found.\nCreating new file "+fileDirectory);
@@ -39,68 +37,59 @@ public class Operations<T extends XMLParser> {
             if(!fileParser.createFileIfNotExist(fileDirectory))
             {
                 System.out.println("New file cannot be created: "+fileDirectory);
-                return false;
+                return ;
             }
 
-            fileContent =new ArrayList<>();
-
-            return true;
+            fileParser.setFileContent(new ArrayList<>());
         }
-        catch (Exception e) {
-            return false;
+        catch (Exception ignored) {
+
         }
     }
 
-    public boolean close(){
+    public void close(){
         if(fileParser.getFile() ==null) {
             System.out.println("There is no currently opened file at the moment.");
-            return false;
+            return ;
         }
 
-        fileContent =null;
+        fileParser.setFileContent(null);
         System.out.println("File successfully closed "+fileParser.getFile().getAbsolutePath());
         fileParser.setFile(null);
-
-        return true;
     }
 
-    public boolean save(){
+    public void save(){
         if(fileParser.getFile() ==null) {
             System.out.println("There is no currently opened file at the moment.");
-            return false;
+            return;
         }
 
-        //fileParser.setFile(new File(currentlyFilePath));
-
-        if(!fileParser.writeFile(fileContent))
+        if(!fileParser.writeFile(fileParser.getFileContent()))
         {
             System.out.println("File cannot be saved "+fileParser.getFile().getAbsolutePath());
-            return false;
+            return ;
         }
 
         System.out.println("File successfully saved "+fileParser.getFile().getAbsolutePath());
-        return true;
     }
 
-    public boolean saveAs(String newFileDirectory){
+    public void saveAs(String newFileDirectory){
         if(fileParser.getFile() ==null) {
             System.out.println("There is no currently opened file at the moment.");
-            return false;
+            return;
         }
 
         String currentDirectory=fileParser.getFile().getAbsolutePath();
 
         fileParser.setFile(new File(newFileDirectory));
 
-        if(!(fileParser.writeFile(fileContent)&&fileParser.deleteFile(currentDirectory)))
+        if(!(fileParser.deleteFile(currentDirectory)&&(fileParser.writeFile(fileParser.getFileContent()))))
         {
                 System.out.println("File cannot be saved as "+newFileDirectory);
-                return false;
+                return;
         }
 
         System.out.println("File saved as "+fileParser.getFile().getAbsolutePath());
-
-        return true;
     }
 
     public String help(){
@@ -119,7 +108,8 @@ public class Operations<T extends XMLParser> {
         System.exit(0);
     }
 
-    public ArrayList<Object> getFileContent() {
-        return fileContent;
+    //Accessors/Mutators
+    public T getFileParser() {
+        return fileParser;
     }
 }

@@ -1,6 +1,6 @@
 package PersonalCalendar;
 
-import CommandLineInterface.XMLParser;
+import CommandLineInterface.Parsers.XMLParser;
 import PersonalCalendar.Exceptions.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

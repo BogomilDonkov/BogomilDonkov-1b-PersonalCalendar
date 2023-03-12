@@ -1,32 +1,29 @@
 package PersonalCalendar;
 
-import CommandLineInterface.Operations;
-import PersonalCalendar.Exceptions.CalendarDateException;
-import PersonalCalendar.Exceptions.CalendarTimeException;
+import CommandLineInterface.*;
+import CommandLineInterface.Parsers.*;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class Calendar {
     //Members~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     private static final Scanner scanner=new Scanner(System.in);
 
-
-
     //Methods~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    public static void run() throws CalendarDateException, CalendarTimeException {
+    public static void run(){
 
-        while(true){
+        CommandLineHandler commandLineHandler=new CalendarCommandLineHandler(new ArrayList<>(List.of(Commands.values())));
+        XMLParser xmlParser=new CalendarXMLParser();
+        Operations<FileParser> operations=new Operations<>(xmlParser);
+
+
+
+        while(true) {
             System.out.print(">");
 
-            String inputString = scanner.nextLine();
+            commandLineHandler.handleInput(scanner.nextLine());
 
+            commandLineHandler.handleOperation(operations);
         }
-
-
-
-
-
-
-
     }
 }

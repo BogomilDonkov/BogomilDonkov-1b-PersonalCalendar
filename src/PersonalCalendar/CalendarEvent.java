@@ -5,6 +5,7 @@ import PersonalCalendar.Exceptions.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class CalendarEvent {
     //Members~~~~~~~~~~~~~~~~~~~~~~~~
@@ -41,6 +42,16 @@ public class CalendarEvent {
     }
 
     //Operations~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    //Methods~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CalendarEvent event = (CalendarEvent) o;
+        return date.equals(event.date) && startTime.equals(event.startTime) && endTime.equals(event.endTime);
+    }
+
 
     //Accessors/Mutators~~~~~~~~~~~~~~~~~~~~~~
     public String getName() {
