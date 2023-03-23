@@ -9,21 +9,36 @@ public class Calendar {
     //Members~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     private static final Scanner scanner=new Scanner(System.in);
 
+    private static Calendar instance;
+
+    //Constructors~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    private Calendar() {
+    }
+
     //Methods~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public static void run(){
 
-        CommandLineHandler commandLineHandler=new CalendarCommandLineHandler(new ArrayList<>(List.of(Commands.values())));
+        CalendarCommandLineHandler calendarCommandLineHandler=new CalendarCommandLineHandler(new ArrayList<>(List.of(CalendarCommands.values())));
         XMLParser xmlParser=new CalendarXMLParser();
-        Operations<FileParser> operations=new Operations<>(xmlParser);
-
-
+        CalendarOperations operations=new CalendarOperations(xmlParser);
 
         while(true) {
             System.out.print(">");
 
-            commandLineHandler.handleInput(scanner.nextLine());
+            calendarCommandLineHandler.handleInput(scanner.nextLine());
 
-            commandLineHandler.handleOperation(operations);
+            calendarCommandLineHandler.handleOperation(operations);
         }
     }
+
+    private static Calendar getInstance(){
+        if(instance==null)
+        {
+            instance=new Calendar();
+            run();
+        }
+
+        return instance;
+    }
+
 }

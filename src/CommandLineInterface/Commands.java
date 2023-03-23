@@ -1,11 +1,16 @@
 package CommandLineInterface;
 
 public enum Commands {
-    help,
-    open,
-    close,
-    save,
-    saveas,
-    exit
+    HELP,
+    OPEN,
+    CLOSE,
+    SAVE,
+    SAVEAS,
+    EXIT;
+
+    @Override
+    public String toString() {
+        return this.toString().toLowerCase();
+    }
 }
 

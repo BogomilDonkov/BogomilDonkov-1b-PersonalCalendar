@@ -5,9 +5,8 @@ import PersonalCalendar.Exceptions.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
-public class CalendarEvent {
+public class CalendarEvent implements Comparable<CalendarEvent>{
     //Members~~~~~~~~~~~~~~~~~~~~~~~~
     private String name;
     private Date date;
@@ -15,30 +14,58 @@ public class CalendarEvent {
     private Date endTime;
     private String note;
 
+    private boolean isHoliday;
+
     //Constants~~~~~~~~~~~~~~~~~~~~~~~~~~
-    public static SimpleDateFormat dateFormat=new SimpleDateFormat("dd-MM-yyyy");
-    public static SimpleDateFormat timeFormat=new SimpleDateFormat("HH:mm");
+    public static SimpleDateFormat DATE_FORMAT=new SimpleDateFormat("dd-MM-yyyy");
+    public static SimpleDateFormat TIME_FORMAT=new SimpleDateFormat("HH:mm");
 
     //Constructors~~~~~~~~~~~~~~~~~~~~~~~
-    public CalendarEvent(String name, String date, String startTime, String endTime, String note) throws CalendarDateException, CalendarTimeException {
-
-        this.name = name;
+    public CalendarEvent(String name, String date, String startTime, String endTime, String note) throws CalendarDateException, CalendarTimeException, InvalidTimeIntervalException {
 
         try {
-            this.date = dateFormat.parse(date);
+            this.date = DATE_FORMAT.parse(date);
 
         } catch (ParseException e) {
             throw new CalendarDateException();
         }
 
         try {
-            this.startTime = timeFormat.parse(startTime);
-            this.endTime = timeFormat.parse(endTime);
+            this.startTime = TIME_FORMAT.parse(startTime);
+            this.endTime = TIME_FORMAT.parse(endTime);
+
         } catch (ParseException e) {
             throw new CalendarTimeException();
         }
 
+        if(this.startTime.after(this.endTime))
+            throw new InvalidTimeIntervalException();
+
+        this.name = name;
         this.note = note;
+    }
+
+    public CalendarEvent(String date, String startTime) throws CalendarDateException, CalendarTimeException{
+
+        try {
+            this.date = DATE_FORMAT.parse(date);
+        } catch (ParseException e) {
+            throw new CalendarDateException();
+        }
+
+        try {
+            this.startTime = TIME_FORMAT.parse(startTime);
+        } catch (ParseException e) {
+            throw new CalendarTimeException();
+        }
+    }
+
+    public CalendarEvent(String date) throws CalendarDateException{
+        try {
+            this.date = DATE_FORMAT.parse(date);
+        } catch (ParseException e) {
+            throw new CalendarDateException();
+        }
     }
 
     //Operations~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -49,9 +76,35 @@ public class CalendarEvent {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CalendarEvent event = (CalendarEvent) o;
-        return date.equals(event.date) && startTime.equals(event.startTime) && endTime.equals(event.endTime);
+        return date.equals(event.date) && (startTime.equals(event.startTime)||endTime.equals(event.endTime));
     }
 
+    @Override
+    public int compareTo(CalendarEvent o) {
+        return this.startTime.compareTo(o.startTime);
+    }
+
+    @Override
+    public String toString() {
+        if(isHoliday)
+            return DATE_FORMAT.format(date) +"\t\t"+ TIME_FORMAT.format(startTime) +"\t\t"+ TIME_FORMAT.format(endTime) +"\t\t"+ name +"\t\t"+ note + "\t\t" +" holiday";
+
+        return DATE_FORMAT.format(date) +"\t\t"+ TIME_FORMAT.format(startTime) +"\t\t"+ TIME_FORMAT.format(endTime) +"\t\t"+ name +"\t\t"+ note + "\t\t" + "work day";
+    }
+
+    public boolean checkCompatibility(CalendarEvent calendarEvent){
+
+        if(calendarEvent.getDate().equals(this.date))
+        {
+            if(calendarEvent.startTime.after(this.startTime)&&calendarEvent.startTime.before(this.endTime))
+            {
+                return false;
+            }
+
+            return !calendarEvent.endTime.after(this.startTime) || !calendarEvent.endTime.before(this.endTime);
+        }
+        return true;
+    }
 
     //Accessors/Mutators~~~~~~~~~~~~~~~~~~~~~~
     public String getName() {
@@ -92,5 +145,13 @@ public class CalendarEvent {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public boolean isHoliday() {
+        return isHoliday;
+    }
+
+    public void setHoliday(boolean holiday) {
+        isHoliday = holiday;
     }
 }

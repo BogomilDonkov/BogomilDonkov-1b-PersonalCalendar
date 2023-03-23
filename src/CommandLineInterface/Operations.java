@@ -4,7 +4,7 @@ import CommandLineInterface.Parsers.FileParser;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Operations<T extends FileParser> {
     //Members~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -17,11 +17,6 @@ public class Operations<T extends FileParser> {
 
     //Methods~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void open(String fileDirectory){
-        if(fileParser.getFile() !=null) {
-            System.out.println("There is currently opened file:" + fileParser.getFile().getAbsolutePath());
-            return;
-        }
-
         try {
             fileParser.setFileContent(fileParser.readFile(fileDirectory));
             System.out.println("File successfully opened:"+fileDirectory);
@@ -40,7 +35,7 @@ public class Operations<T extends FileParser> {
                 return ;
             }
 
-            fileParser.setFileContent(new ArrayList<>());
+            fileParser.setFileContent(new HashSet<>());
         }
         catch (Exception ignored) {
 
@@ -48,37 +43,23 @@ public class Operations<T extends FileParser> {
     }
 
     public void close(){
-        if(fileParser.getFile() ==null) {
-            System.out.println("There is no currently opened file at the moment.");
-            return ;
-        }
-
         fileParser.setFileContent(null);
         System.out.println("File successfully closed "+fileParser.getFile().getAbsolutePath());
         fileParser.setFile(null);
+
     }
 
     public void save(){
-        if(fileParser.getFile() ==null) {
-            System.out.println("There is no currently opened file at the moment.");
-            return;
-        }
-
         if(!fileParser.writeFile(fileParser.getFileContent()))
         {
             System.out.println("File cannot be saved "+fileParser.getFile().getAbsolutePath());
-            return ;
+            return;
         }
 
         System.out.println("File successfully saved "+fileParser.getFile().getAbsolutePath());
     }
 
     public void saveAs(String newFileDirectory){
-        if(fileParser.getFile() ==null) {
-            System.out.println("There is no currently opened file at the moment.");
-            return;
-        }
-
         String currentDirectory=fileParser.getFile().getAbsolutePath();
 
         fileParser.setFile(new File(newFileDirectory));
@@ -94,7 +75,7 @@ public class Operations<T extends FileParser> {
 
     public String help(){
         return """             
-                \tDefault commands:                                     Description:\s
+                \tFile commands:                                     Description:\s
                 \t\t\topen <file directory>                                 opens <file>\s
                 \t\t\tclose                                                 closes currently opened file\s
                 \t\t\tsave                                                  saves the currently open file\s

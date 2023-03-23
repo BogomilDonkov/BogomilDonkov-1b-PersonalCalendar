@@ -6,9 +6,8 @@ import java.util.List;
 public class CommandLineHandler {
     //Members~~~~~~~~~~~~~~~~~~~~~~~~~~
     private ArrayList<Commands> commands;
-    private Commands command;
-
-    ArrayList<String> inputArray;
+    private String command;
+    private ArrayList<String> inputArray;
     private ArrayList<String> instructions;
 
     //Constructors~~~~~~~~~~~~~~~~~~~~~~~~
@@ -36,60 +35,69 @@ public class CommandLineHandler {
             return;
         }
 
-        command= Commands.valueOf(inputArray.get(0));
+        command= inputArray.get(0);
+
         instructions=new ArrayList<>(inputArray.subList(1,inputArray.size()));
 
     }
 
     public void handleOperation(Operations operations){
+        if(command==null)
+            return;
+
         switch (command) {
-            case close -> {
+            case "close" -> {
                 if (instructions.size() != 0)
                     System.out.println("'close' does not expect arguments");
                 else
                     operations.close();
             }
 
-            case open -> {
+            case "open" -> {
                 if (instructions.size() != 1)
                     System.out.println("'open' expects one argument");
                 else
                     operations.open(instructions.get(0));
             }
 
-            case help -> {
+            case "help" -> {
                 if (instructions.size() != 0)
                     System.out.println("'help' does not expect arguments");
                 else
                     System.out.println(operations.help());
             }
 
-            case save -> {
+            case "save" -> {
                 if (instructions.size() != 0)
                     System.out.println("'save' does not expect arguments");
                 else
                     operations.save();
             }
 
-            case saveas -> {
+            case "saveas" -> {
                 if (instructions.size() != 1)
                     System.out.println("'saveas' expects one argument");
                  else
                     operations.saveAs(instructions.get(0));
             }
 
-            case exit ->{
+            case "exit" ->{
                 if (instructions.size() != 0)
                     System.out.println("'exit' does not expect arguments");
                 else
                     operations.exit();
             }
 
-            default -> System.out.println(command+" is not recognized as an internal command!");
+            case ""->{}
+
+            default -> {
+                System.out.println(command+" is not recognized as an internal command!");
+                command="";
+            }
         }
     }
 
-    public Commands getCommand() {
+    public String getCommand() {
         return command;
     }
 

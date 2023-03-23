@@ -1,6 +1,7 @@
 package CommandLineInterface.Parsers;
 
 import CommandLineInterface.Parsers.FileParser;
+import PersonalCalendar.CalendarEvent;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -17,18 +18,19 @@ import java.io.File;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public abstract class XMLParser implements FileParser {
 
     //Members~~~~~~~~~~~~~~~~~~~~~~~~~~
     private File file;
 
-    private ArrayList<Object> fileContent=null;
+    private HashSet<CalendarEvent> fileContent=null;
 
     //Methods~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    protected abstract ArrayList<Object> customReadMethod(Document document) throws Exception;
+    protected abstract HashSet<CalendarEvent> customReadMethod(Document document) throws Exception;
 
-    protected abstract void customWriteMethod(Document doc, ArrayList<Object> content);
+    protected abstract void customWriteMethod(Document doc, HashSet<CalendarEvent> content);
 
     protected abstract void setFileDefaultOptions(File file) throws IOException;
 
@@ -52,7 +54,7 @@ public abstract class XMLParser implements FileParser {
         return file.delete();
     }
 
-    public ArrayList<Object> readFile(String path) throws Exception{
+    public HashSet<CalendarEvent> readFile(String path) throws Exception{
         DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();
 
         try {
@@ -67,7 +69,7 @@ public abstract class XMLParser implements FileParser {
         }
     }
 
-    public boolean writeFile(ArrayList<Object> content){
+    public boolean writeFile(HashSet<CalendarEvent> content){
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -99,11 +101,11 @@ public abstract class XMLParser implements FileParser {
         return file;
     }
 
-    public ArrayList<Object> getFileContent() {
+    public HashSet<CalendarEvent> getFileContent() {
         return fileContent;
     }
 
-    public void setFileContent(ArrayList<Object> fileContent) {
+    public void setFileContent(HashSet<CalendarEvent> fileContent) {
         this.fileContent = fileContent;
     }
 }

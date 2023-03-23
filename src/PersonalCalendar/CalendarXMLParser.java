@@ -11,25 +11,26 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
-import static PersonalCalendar.CalendarEvent.dateFormat;
-import static PersonalCalendar.CalendarEvent.timeFormat;
+import static PersonalCalendar.CalendarEvent.*;
 
 
 public class CalendarXMLParser extends XMLParser {
     //Methods~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Override
-    protected void customWriteMethod(Document document,ArrayList<Object> content){
-        for (Object value : content) {
+    protected void customWriteMethod(Document document,HashSet<CalendarEvent> content){
+        for (CalendarEvent event : content) {
             Element element=document.createElement("event");
 
-            CalendarEvent calendarEvent= (CalendarEvent) value;
-            String name = calendarEvent.getName();
-            String date = dateFormat.format(calendarEvent.getDate());
-            String startTime = timeFormat.format(calendarEvent.getStartTime());
-            String endTime = timeFormat.format(calendarEvent.getEndTime());
-            String note = calendarEvent.getNote();
+
+            String name = event.getName();
+            String date = DATE_FORMAT.format(event.getDate());
+            String startTime = TIME_FORMAT.format(event.getStartTime());
+            String endTime = TIME_FORMAT.format(event.getEndTime());
+            //for(int i=4;i<)
+            String note = event.getNote();
 
             element.setAttribute("name", name);
             element.setAttribute("date", date);
@@ -49,9 +50,9 @@ public class CalendarXMLParser extends XMLParser {
     }
 
     @Override
-    protected ArrayList<Object> customReadMethod(Document document) throws CalendarDateException, CalendarTimeException{
+    protected HashSet<CalendarEvent> customReadMethod(Document document) throws CalendarDateException, CalendarTimeException, InvalidTimeIntervalException {
 
-        ArrayList<Object> calendarEvents= new ArrayList<>();
+        HashSet<CalendarEvent> calendarEvents= new HashSet<>();
         document.getDocumentElement().normalize();
 
         NodeList eventList= document.getElementsByTagName("event");
@@ -67,7 +68,7 @@ public class CalendarXMLParser extends XMLParser {
                 String endTime= eventElement.getAttribute("endTime");
                 String note=eventElement.getAttribute("note");
 
-                Object content= new CalendarEvent(name,date,startTime,endTime,note);
+                CalendarEvent content= new CalendarEvent(name,date,startTime,endTime,note);
 
                 calendarEvents.add(content);
             }
