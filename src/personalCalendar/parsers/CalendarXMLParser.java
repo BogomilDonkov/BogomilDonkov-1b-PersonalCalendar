@@ -1,7 +1,8 @@
-package PersonalCalendar;
+package personalCalendar.parsers;
 
-import CommandLineInterface.Parsers.XMLParser;
-import PersonalCalendar.Exceptions.*;
+import cli.parsers.XMLParser;
+import personalCalendar.models.CalendarEvent;
+import personalCalendar.exceptions.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -10,26 +11,23 @@ import org.w3c.dom.NodeList;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 
-import static PersonalCalendar.CalendarEvent.*;
+import static personalCalendar.models.CalendarEvent.*;
 
 
 public class CalendarXMLParser extends XMLParser {
     //Methods~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     @Override
     protected void customWriteMethod(Document document,HashSet<CalendarEvent> content){
         for (CalendarEvent event : content) {
             Element element=document.createElement("event");
 
-
             String name = event.getName();
-            String date = DATE_FORMAT.format(event.getDate());
-            String startTime = TIME_FORMAT.format(event.getStartTime());
-            String endTime = TIME_FORMAT.format(event.getEndTime());
-            //for(int i=4;i<)
+
+            String date=event.getDate().format(DATE_FORMATTER);
+            String startTime = event.getStartTime().format(TIME_FORMATTER);
+            String endTime = event.getEndTime().format(TIME_FORMATTER);
             String note = event.getNote();
 
             element.setAttribute("name", name);
@@ -75,6 +73,5 @@ public class CalendarXMLParser extends XMLParser {
         }
         return calendarEvents;
     }
-
 
 }

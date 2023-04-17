@@ -1,7 +1,7 @@
-package CommandLineInterface.Parsers;
+package cli.parsers;
 
-import CommandLineInterface.Parsers.FileParser;
-import PersonalCalendar.CalendarEvent;
+import personalCalendar.models.CalendarEvent;
+import cli.interfaces.FileParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -17,7 +17,6 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public abstract class XMLParser implements FileParser {
