@@ -64,7 +64,7 @@ public class Find implements CalendarOperation {
         }
 
         if(!foundedEvents.isEmpty()){
-            System.out.println("Here are the events that contain "+stringToSearch);
+            System.out.println("Here are the events that contain '"+stringToSearch+"': ");
             for(CalendarEvent event:foundedEvents){
                 System.out.println(event);
             }
