@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<calendar>
+    <event isHoliday="false">
+        <name>Basketball</name>
+        <date>24-04-2023</date>
+        <startTime>16:00</startTime>
+        <endTime>22:00</endTime>
+        <note>First training </note>
+    </event>
+</calendar>
