@@ -1,9 +1,15 @@
 package exceptions;
 
-import static models.CalendarEvent.DATE_PATTERN;
-
+/**
+ * Exception thrown when an invalid date format is used.
+ */
 public class CalendarDateException extends CalendarException {
-    public CalendarDateException() {
-        super("Invalid date format. Please use "+ DATE_PATTERN);
+
+    /**
+     * Constructs a new CalendarDateException with the specified detail message.
+     * @param message the detail message
+     */
+    public CalendarDateException(String message) {
+        super(message);
     }
 }

@@ -1,12 +1,17 @@
 package operations.defaultOp;
 
-import contracts.Operation;
+import contracts.DefaultOperation;
 
-public class Exit implements Operation<Boolean> {
+/**
+ * A class representing the "Exit" command, which is used to exit the program.
+ */
+public class Exit implements DefaultOperation {
 
+    /**
+     * Executes the "Exit" command by printing a message indicating that the program is exiting.
+     */
     @Override
-    public Boolean execute() {
+    public void execute() {
         System.out.println("Exiting program...");
-        return false;
     }
 }

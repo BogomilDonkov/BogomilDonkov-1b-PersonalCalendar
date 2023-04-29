@@ -1,7 +1,8 @@
 package operations.calendarOp;
 
-import contracts.Operation;
-import exceptions.CalendarDateException;
+import comparators.DurationComparator;
+import contracts.CalendarOperation;
+import exceptions.OperationException;
 import models.Calendar;
 import models.CalendarEvent;
 
@@ -13,20 +14,37 @@ import java.util.*;
 
 import static models.CalendarEvent.DATE_FORMATTER;
 
-public class Busydays implements Operation<Boolean> {
+/**
+ * A calendar operation that retrieves the busiest days within a given date range.
+ */
+public class Busydays implements CalendarOperation {
 
+    /**
+     * The Calendar instance on which the operation will be executed.
+     */
     private final Calendar calendar;
+
+    /**
+     * The ArrayList containing the instructions for the operation.
+     */
     private final ArrayList<String> instructions;
 
-
+    /**
+     * Constructs an instance of the Busydays class with the specified Calendar and ArrayList of instructions.
+     * @param calendar The Calendar instance on which the operation will be executed.
+     * @param instructions The ArrayList containing the instructions for the operation.
+     */
     public Busydays(Calendar calendar, ArrayList<String> instructions) {
         this.calendar = calendar;
         this.instructions = instructions;
     }
 
-
+    /**
+     * Retrieves the busiest days within a given date range and prints the result to standard output.
+     * @throws OperationException if an error occurs during the execution of the operation
+     */
     @Override
-    public Boolean execute() {
+    public void execute() throws OperationException {
         LocalDate startDate;
         LocalDate endDate;
 
@@ -36,9 +54,7 @@ public class Busydays implements Operation<Boolean> {
             startDate = LocalDate.parse(instructions.get(0), DATE_FORMATTER);
             endDate = LocalDate.parse(instructions.get(1), DATE_FORMATTER);
         }catch (DateTimeParseException e){
-            CalendarDateException calendarDateException=new CalendarDateException();
-            System.out.println(calendarDateException.getMessage());
-            return false;
+            throw new OperationException(e);
         }
 
         HashSet<CalendarEvent> calendarEvents=new HashSet<>(calendar.getCalendarEvents());
@@ -52,16 +68,14 @@ public class Busydays implements Operation<Boolean> {
         }
 
         ArrayList<Map.Entry<DayOfWeek,Duration>> busydays=new ArrayList<>(busydaysMap.entrySet());
-        Comparator<Map.Entry<DayOfWeek, Duration>> durationComparator =
-                Comparator.comparing(Map.Entry<DayOfWeek, Duration>::getValue).reversed();
-        busydays.sort(durationComparator);
+        DurationComparator comparator=new DurationComparator();
+
+        busydays.sort(comparator.reversed());
 
         for(Map.Entry<DayOfWeek,Duration> entry:busydays){
             long hours=entry.getValue().toHours();
             long minutes=entry.getValue().toMinutes()%60;
             System.out.println(entry.getKey() + " - " + hours + "h " + minutes + "m");
         }
-
-        return true;
     }
 }

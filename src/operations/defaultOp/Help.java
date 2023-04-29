@@ -1,13 +1,18 @@
 package operations.defaultOp;
 
-import contracts.Operation;
+import contracts.DefaultOperation;
 import enums.Commands;
 
+/**
+ * A class that displays the list of default commands and their descriptions.
+ */
+public class Help implements DefaultOperation {
 
-public class Help implements Operation<String> {
-
+    /**
+     * Displays the list of default commands and their descriptions.
+     */
     @Override
-    public String execute() {
+    public void execute() {
         StringBuilder builder=new StringBuilder();
 
         builder.append("Default commands:\tArguments:\t\t\t\t\t\t\t\t\tDescription:");
@@ -16,10 +21,17 @@ public class Help implements Operation<String> {
             buildDescription(builder, commands.getName(), commands.getInstructions(), commands.getDescription(), commands);
         }
 
-        return builder.toString();
+        System.out.println(builder);
     }
 
-
+    /**
+     * Appends the command name, instructions, and description to the provided string builder.
+     * @param builder The string builder to append the command information to.
+     * @param name The name of the command.
+     * @param instructions The instructions for using the command.
+     * @param description The description of what the command does.
+     * @param commands The command being processed.
+     */
     //region Internal Methods
     private void buildDescription(StringBuilder builder, String name, String instructions, String description, Enum<?> commands) {
         builder.append("\n\t");
@@ -28,7 +40,6 @@ public class Help implements Operation<String> {
         builder.append(String.format("%-45s", instructions));
         builder.append("\t");
         builder.append(description);
-        builder.append("\n~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
 
     //endregion
