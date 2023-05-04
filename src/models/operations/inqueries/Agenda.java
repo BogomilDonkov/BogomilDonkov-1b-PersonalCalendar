@@ -1,9 +1,9 @@
-package operations.calendarOp;
+package models.operations.inqueries;
 
 import contracts.CalendarOperation;
 import exceptions.OperationException;
-import models.Calendar;
-import models.CalendarEvent;
+import models.calendar.Calendar;
+import models.calendar.CalendarEvent;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static models.CalendarEvent.DATE_FORMATTER;
-import static models.CalendarEvent.DATE_PATTERN;
+import static models.calendar.CalendarEvent.DATE_FORMATTER;
+import static models.calendar.CalendarEvent.DATE_PATTERN;
 
 /**
  * The Agenda class represents an operation that prints a list of all events for a specific date in the calendar, sorted by their start time.

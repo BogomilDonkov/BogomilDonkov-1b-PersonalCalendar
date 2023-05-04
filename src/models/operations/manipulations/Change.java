@@ -1,17 +1,17 @@
-package operations.calendarOp;
+package models.operations.manipulations;
 
 import contracts.CalendarOperation;
 import exceptions.*;
-import models.Calendar;
-import models.CalendarEvent;
+import models.calendar.Calendar;
+import models.calendar.CalendarEvent;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import static models.CalendarEvent.DATE_FORMATTER;
-import static models.CalendarEvent.TIME_FORMATTER;
+import static models.calendar.CalendarEvent.DATE_FORMATTER;
+import static models.calendar.CalendarEvent.TIME_FORMATTER;
 
 /**
  * The Change class implements the CalendarOperation interface and represents an operation to change an existing event in the calendar.

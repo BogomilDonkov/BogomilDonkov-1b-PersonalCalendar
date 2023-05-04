@@ -1,9 +1,9 @@
-package operations.calendarOp;
+package models.operations.inqueries;
 
 import contracts.CalendarOperation;
 import exceptions.OperationException;
-import models.Calendar;
-import models.CalendarEvent;
+import models.calendar.Calendar;
+import models.calendar.CalendarEvent;
 
 import java.util.ArrayList;
 import java.util.HashSet;

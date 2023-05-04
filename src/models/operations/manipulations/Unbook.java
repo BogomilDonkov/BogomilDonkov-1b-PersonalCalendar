@@ -1,12 +1,12 @@
-package operations.calendarOp;
+package models.operations.manipulations;
 
 import contracts.CalendarOperation;
 import exceptions.CalendarDateException;
 import exceptions.CalendarTimeException;
 import exceptions.InvalidTimeIntervalException;
 import exceptions.OperationException;
-import models.Calendar;
-import models.CalendarEvent;
+import models.calendar.Calendar;
+import models.calendar.CalendarEvent;
 
 import java.util.ArrayList;
 

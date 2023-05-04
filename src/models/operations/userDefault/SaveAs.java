@@ -1,4 +1,4 @@
-package operations.defaultOp;
+package models.operations.userDefault;
 
 import contracts.DefaultOperation;
 import exceptions.OperationException;
@@ -41,6 +41,9 @@ public class SaveAs implements DefaultOperation {
     @Override
     public void execute() throws OperationException {
         String newFileDirectory=instructions.get(0);
+
+        if(!newFileDirectory.endsWith(".xml"))
+            newFileDirectory+=".xml";
 
         if(!checkIfFileAlreadyExistsAndSubmitUserResponse(newFileDirectory))
             return ;

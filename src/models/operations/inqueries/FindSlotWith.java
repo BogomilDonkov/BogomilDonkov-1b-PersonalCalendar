@@ -1,9 +1,9 @@
-package operations.calendarOp;
+package models.operations.inqueries;
 
 import contracts.CalendarOperation;
 import exceptions.OperationException;
-import models.Calendar;
-import models.CalendarEvent;
+import models.calendar.Calendar;
+import models.calendar.CalendarEvent;
 import parsers.XMLParser;
 
 import javax.xml.bind.JAXBException;
@@ -13,7 +13,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-import static models.CalendarEvent.DATE_FORMATTER;
+import static models.calendar.CalendarEvent.DATE_FORMATTER;
 
 /**
  * A class that represents a find-slot-with operation in a calendar.

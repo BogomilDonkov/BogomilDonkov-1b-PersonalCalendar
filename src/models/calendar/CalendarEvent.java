@@ -1,7 +1,5 @@
-package models;
+package models.calendar;
 
-import adapters.LocalDateAdapter;
-import adapters.LocalTimeAdapter;
 import contracts.CalendarEventService;
 import exceptions.CalendarDateException;
 import exceptions.CalendarTimeException;
@@ -273,6 +271,7 @@ public class CalendarEvent  implements CalendarEventService, Comparable<Calendar
      * @param calendarEvent the CalendarEvent object to be checked for compatibility
      * @return true if the two events are compatible, false otherwise
      */
+    @Override
     public boolean checkCompatibility(CalendarEvent calendarEvent){
 
         if(calendarEvent.date.equals(this.date))

@@ -1,10 +1,10 @@
-package operations.calendarOp;
+package models.operations.inqueries;
 
 import comparators.DurationComparator;
 import contracts.CalendarOperation;
 import exceptions.OperationException;
-import models.Calendar;
-import models.CalendarEvent;
+import models.calendar.Calendar;
+import models.calendar.CalendarEvent;
 
 import java.time.DayOfWeek;
 import java.time.Duration;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-import static models.CalendarEvent.DATE_FORMATTER;
+import static models.calendar.CalendarEvent.DATE_FORMATTER;
 
 /**
  * A calendar operation that retrieves the busiest days within a given date range.

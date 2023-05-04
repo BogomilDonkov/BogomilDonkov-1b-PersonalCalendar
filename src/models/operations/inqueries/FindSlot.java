@@ -1,10 +1,10 @@
-package operations.calendarOp;
+package models.operations.inqueries;
 
-import contracts.Operation;
+import contracts.DefaultOperation;
 import exceptions.OperationException;
-import models.Calendar;
-import models.CalendarEvent;
-import models.TimeGap;
+import models.calendar.Calendar;
+import models.calendar.CalendarEvent;
+import models.operations.util.TimeGap;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -12,13 +12,13 @@ import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-import static models.CalendarEvent.DATE_FORMATTER;
+import static models.calendar.CalendarEvent.DATE_FORMATTER;
 
 /**
  * This class represents an operation to find free time slots in a given calendar based on provided instructions.
  * Implements the Operation interface, which requires the implementation of the execute method.
  */
-public class FindSlot implements Operation {
+public class FindSlot implements DefaultOperation {
 
     /**
      * The Calendar instance on which the operation will be executed.

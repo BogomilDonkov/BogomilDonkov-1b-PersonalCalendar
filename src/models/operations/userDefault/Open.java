@@ -1,4 +1,4 @@
-package operations.defaultOp;
+package models.operations.userDefault;
 
 import contracts.DefaultOperation;
 import exceptions.OperationException;
@@ -24,7 +24,7 @@ public class Open implements DefaultOperation {
     private final ArrayList<String> instructions;
 
     /**
-     * Constructs a Merge object with the provided XMLParser and instruction list.
+     * Constructs a Open object with the provided XMLParser and instruction list.
      * @param xmlParser The XMLParser object that will be used to parse the calendar.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
@@ -71,8 +71,6 @@ public class Open implements DefaultOperation {
             throw new OperationException("New file cannot be created");
         }
 
-        System.out.println("New file was created: " + fileDirectory);
-
-        execute();
+        System.out.println("New file was created and loaded: " + fileDirectory);
     }
 }

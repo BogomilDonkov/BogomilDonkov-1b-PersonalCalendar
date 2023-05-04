@@ -3,14 +3,15 @@ package factories;
 import contracts.Operation;
 import enums.*;
 import exceptions.OperationException;
+import models.operations.manipulations.*;
 import parsers.XMLParser;
-import operations.defaultOp.*;
-import operations.calendarOp.*;
+import models.operations.userDefault.*;
+import models.operations.inqueries.*;
 
 import java.util.ArrayList;
 
 /**
- * A factory class for creating operations based on the user input command.
+ * A factory class for creating models.operations based on the user input command.
  */
 public class OperationFactory{
 
@@ -34,11 +35,7 @@ public class OperationFactory{
      * @return the operation based on the user input command.
      * @throws OperationException if the command is not recognized or if the instructions are not correct for the specified command.
      */
-    public Operation getOperation(String commandInput, ArrayList<String> instructions) throws OperationException {
-
-        Commands command=parseCommand(commandInput);
-
-        checkInstructionsLength(instructions,command);
+    public Operation getOperation(Commands command, ArrayList<String> instructions) throws OperationException {
 
         if(checkIfFileIsLoaded()) {
             switch (command) {
@@ -80,48 +77,6 @@ public class OperationFactory{
      */
     private boolean checkIfFileIsLoaded(){
         return xmlParser.getFile() != null;
-    }
-
-    /**
-     * Checks if the length of the instructions is correct for the specified command.
-     * @param instructions the instructions for the specified command.
-     * @param command the specified command.
-     * @throws OperationException if the length of the instructions is not correct for the specified command.
-     */
-    private void checkInstructionsLength(ArrayList<String> instructions, Commands command) throws OperationException {
-        int defaultInstructionsSize=command.getInstructions().split(" ").length;
-
-        //Имаме едно единствено изключение ако командата ни е BOOK
-        //Тъй като note може да съдържа в себе си повече от една дума, дължината на подадените инструкции може да надвишава зададената дължина по подразбиране
-        if(command== Commands.BOOK) {
-            if(instructions.size() < defaultInstructionsSize) {
-                throw new OperationException("'" + command + "' expects " + command.getInstructions());
-            }
-        }
-        else
-        //Проверяваме дължината на подадените инструкции дали съвпада с дължината на инструкциите които изисква подадената команда
-        if (instructions.size() != defaultInstructionsSize ) {
-
-            if(command.getInstructions().equals(" "))
-                throw new OperationException("'" + command + "' does not expects arguments.");
-            else
-                throw new OperationException("'" + command + "' expects "+command.getInstructions());
-        }
-    }
-
-    /**
-     * Parses the given command string and returns the corresponding {@link Commands} enum value.
-     * Throws an {@link OperationException} if the command is not recognized as an internal command.
-     * @param command the command string to parse
-     * @return the corresponding {@link Commands} enum value
-     * @throws OperationException if the command is not recognized as an internal command
-     */
-    private Commands parseCommand(String command) throws OperationException {
-        for(Commands value:Commands.values())
-            if(value.getName().equals(command))
-                return Commands.valueOf(command.toUpperCase());
-
-        throw new OperationException(command + " is not recognized as an internal command!");
     }
 
     //endregion

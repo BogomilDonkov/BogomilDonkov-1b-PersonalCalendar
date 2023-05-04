@@ -3,13 +3,13 @@
     <event isHoliday="false">
         <name>Volley</name>
         <date>24-04-2023</date>
-        <startTime>12:30</startTime>
+        <startTime>16:30</startTime>
         <endTime>17:00</endTime>
         <note>First training </note>
     </event>
     <event isHoliday="false">
         <name>Volley</name>
-        <date>28-02-2025</date>
+        <date>24-04-2023</date>
         <startTime>08:40</startTime>
         <endTime>09:50</endTime>
         <note>neshto nishto neshto </note>
@@ -24,8 +24,8 @@
     <event isHoliday="false">
         <name>Baseball</name>
         <date>24-04-2023</date>
-        <startTime>09:30</startTime>
-        <endTime>10:00</endTime>
+        <startTime>18:30</startTime>
+        <endTime>19:00</endTime>
         <note>First training </note>
     </event>
 </calendar>

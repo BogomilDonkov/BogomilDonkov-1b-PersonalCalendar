@@ -8,7 +8,7 @@ import java.util.Set;
  * The FileParser interface represents a generic file parser for reading and writing files.
  * The generic type T represents the type of object being parsed from the file.
  */
-public interface FileParser<T> {
+public interface FileParser<T>{
 
     /**
      * Reads a file from the given path and returns a set of parsed objects.

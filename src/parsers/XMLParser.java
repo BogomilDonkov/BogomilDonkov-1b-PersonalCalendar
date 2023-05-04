@@ -1,8 +1,8 @@
 package parsers;
 
 import contracts.FileParser;
-import models.Calendar;
-import models.CalendarEvent;
+import models.calendar.Calendar;
+import models.calendar.CalendarEvent;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -23,15 +23,16 @@ public class XMLParser implements FileParser<CalendarEvent> {
     private File file;
 
     /**
-     * The Calendar object that contains the parsed CalendarEvents.
+     * The {@link Calendar} object that contains the parsed CalendarEvents.
      */
     private Calendar calendar;
 
     /**
-     * Creates a new instance of XMLParser and initializes a new Calendar object.
+     * Constructs a {@link XMLParser} object with the provided {@link XMLParser} and instruction list.
+     * @param calendar The {@link Calendar} object that will be used to parse the calendar.
      */
-    public XMLParser() {
-        this.calendar = new Calendar();
+    public XMLParser(Calendar calendar) {
+        this.calendar=calendar;
     }
 
     /**
@@ -40,12 +41,10 @@ public class XMLParser implements FileParser<CalendarEvent> {
      * @throws JAXBException if there is an error creating the file.
      */
     public void createFileIfNotExist(String path) throws JAXBException {
-        Calendar newCalendar = new Calendar();
-
         JAXBContext context = JAXBContext.newInstance(Calendar.class);
 
         Marshaller marshaller = context.createMarshaller();
-        marshaller.marshal(newCalendar, new File(path));
+        marshaller.marshal(calendar, new File(path));
     }
 
     /**

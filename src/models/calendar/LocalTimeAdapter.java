@@ -1,4 +1,4 @@
-package adapters;
+package models.calendar;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 

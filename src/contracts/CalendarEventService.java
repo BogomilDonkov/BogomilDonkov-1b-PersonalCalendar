@@ -1,6 +1,6 @@
 package contracts;
 
-import models.CalendarEvent;
+import models.calendar.CalendarEvent;
 
 /**
  * The CalendarEventService interface defines the methods that should be implemented by classes

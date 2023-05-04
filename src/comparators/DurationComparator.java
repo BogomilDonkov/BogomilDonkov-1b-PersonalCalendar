@@ -1,5 +1,7 @@
 package comparators;
 
+import contracts.DefaultOperation;
+
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.util.Comparator;
@@ -8,7 +10,7 @@ import java.util.*;
 /**
  * A Comparator implementation that compares Map.Entry objects containing a DayOfWeek key and a Duration value based on the value (Duration) in ascending order.
  */
-public class DurationComparator implements Comparator<Map.Entry<DayOfWeek,Duration>> {
+public class DurationComparator implements Comparator<Map.Entry<DayOfWeek,Duration>>{
 
     /**
      * Compares two Map.Entry objects containing a DayOfWeek key and a Duration value based on the value (Duration) in ascending order.

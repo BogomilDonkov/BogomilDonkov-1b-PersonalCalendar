@@ -1,16 +1,16 @@
-package operations.calendarOp;
+package models.operations.manipulations;
 
 import contracts.CalendarOperation;
 import exceptions.CalendarDateException;
 import exceptions.CalendarTimeException;
 import exceptions.InvalidTimeIntervalException;
 import exceptions.OperationException;
-import models.Calendar;
-import models.CalendarEvent;
+import models.calendar.Calendar;
+import models.calendar.CalendarEvent;
 
 import java.util.ArrayList;
 
-import static models.CalendarEvent.DATE_FORMATTER;
+import static models.calendar.CalendarEvent.DATE_FORMATTER;
 
 /**
  * The Book class implements the CalendarOperation interface and represents an operation to book a new event into the calendar.

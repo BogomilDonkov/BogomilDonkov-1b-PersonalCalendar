@@ -1,14 +1,14 @@
-package operations.calendarOp;
+package models.operations.manipulations;
 
 import contracts.CalendarOperation;
 import exceptions.OperationException;
-import models.Calendar;
-import models.CalendarEvent;
+import models.calendar.Calendar;
+import models.calendar.CalendarEvent;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static models.CalendarEvent.DATE_FORMATTER;
+import static models.calendar.CalendarEvent.DATE_FORMATTER;
 
 /**
  * The Holiday class represents an operation to set a date to be a holiday.
