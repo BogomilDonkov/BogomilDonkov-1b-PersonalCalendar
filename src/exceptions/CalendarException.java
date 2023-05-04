@@ -12,12 +12,4 @@ public class CalendarException extends Exception{
     public CalendarException(String message) {
         super(message);
     }
-
-    /**
-     * Constructs a new CalendarException with the specified cause.
-     * @param cause the cause (which is saved for later retrieval by the getCause() method).
-     */
-    public CalendarException(Throwable cause) {
-        super(cause);
-    }
 }

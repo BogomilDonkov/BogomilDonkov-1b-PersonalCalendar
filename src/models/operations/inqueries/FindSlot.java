@@ -1,6 +1,7 @@
 package models.operations.inqueries;
 
 import contracts.DefaultOperation;
+import exceptions.CalendarDateException;
 import exceptions.OperationException;
 import models.calendar.Calendar;
 import models.calendar.CalendarEvent;
@@ -13,6 +14,7 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 
 import static models.calendar.CalendarEvent.DATE_FORMATTER;
+import static models.calendar.CalendarEvent.DATE_PATTERN;
 
 /**
  * This class represents an operation to find free time slots in a given calendar based on provided instructions.
@@ -44,9 +46,10 @@ public class FindSlot implements DefaultOperation {
      * Executes the FindSlot operation by finding free time slots in the calendar and printing them to the console.
      * Throws an OperationException if there are no free time slots in the calendar.
      * @throws OperationException if there are no free time slots in the calendar.
+     * @throws CalendarDateException if the input date is in invalid format.
      */
     @Override
-    public void execute() throws OperationException {
+    public void execute() throws OperationException, CalendarDateException {
         ArrayList<TimeGap> arrayList= findFreeSpaceInCalendar();
 
         if(arrayList.isEmpty())
@@ -63,8 +66,9 @@ public class FindSlot implements DefaultOperation {
      * Finds and returns a list of free time slots in the calendar based on the instructions provided.
      * @return an ArrayList of TimeGap objects representing the free time slots in the calendar.
      * @throws OperationException if there is an error parsing the instructions or the calendar events.
+     * @throws CalendarDateException if the input date is in invalid format.
      */
-    public ArrayList<TimeGap> findFreeSpaceInCalendar() throws OperationException {
+    public ArrayList<TimeGap> findFreeSpaceInCalendar() throws OperationException, CalendarDateException {
         ArrayList<TimeGap> freeTimeGaps=new ArrayList<>();
         double hours;
         LocalDate date;
@@ -73,8 +77,8 @@ public class FindSlot implements DefaultOperation {
             date= LocalDate.parse(instructions.get(0), DATE_FORMATTER);
         }catch (NumberFormatException | NullPointerException e){
             throw new OperationException("Hours argument must have numeric value!");
-        }catch (DateTimeParseException e){
-            throw new OperationException(e);
+        }catch (DateTimeParseException ignored){
+            throw new CalendarDateException("Invalid date format. Please use "+ DATE_PATTERN);
         }
 
         LocalTime startTime = LocalTime.parse("08:00");
@@ -83,7 +87,6 @@ public class FindSlot implements DefaultOperation {
 
         HashSet<CalendarEvent> calendarEvents=new HashSet<>(calendar.getCalendarEvents());
 
-        //Намираме и запазваме всички събития от календара, зареден в програмата, с подадената дата от потребителя в колекция
         List<CalendarEvent> filteredCalendarEvents =
                 new ArrayList<>(calendarEvents.stream().filter(item -> item.getDate().equals(date)).toList());
         Collections.sort(filteredCalendarEvents);
@@ -96,7 +99,6 @@ public class FindSlot implements DefaultOperation {
             startTime=event.getEndTime();
         }
 
-        //правим проверка за последния времеви диапазон
         duration = Duration.between(startTime, endTime);
         double difference = duration.toHours() + (double) (duration.toMinutes() % 60) / 60;
         if (difference >= hours) {

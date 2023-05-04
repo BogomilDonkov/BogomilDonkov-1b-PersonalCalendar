@@ -67,7 +67,7 @@ public class Change implements CalendarOperation {
             throw new OperationException("There is no such event in the calendar.");
 
         } catch (CalendarDateException | CalendarTimeException | InvalidTimeIntervalException e) {
-            throw new OperationException(e);
+            throw new OperationException(e.getMessage());
         }
     }
 

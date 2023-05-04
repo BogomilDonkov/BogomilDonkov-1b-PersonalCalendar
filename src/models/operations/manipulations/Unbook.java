@@ -50,7 +50,7 @@ public class Unbook implements CalendarOperation {
             calendarEvent =new CalendarEvent(null,date,startTime,endTime,null);
 
         } catch (CalendarDateException | CalendarTimeException | InvalidTimeIntervalException e) {
-            throw new OperationException(e);
+            throw new OperationException(e.getMessage());
         }
 
         if(calendar.getCalendarEvents().removeIf(calendarEvent::equals))

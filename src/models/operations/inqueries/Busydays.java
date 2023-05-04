@@ -2,6 +2,7 @@ package models.operations.inqueries;
 
 import comparators.DurationComparator;
 import contracts.CalendarOperation;
+import exceptions.CalendarDateException;
 import exceptions.OperationException;
 import models.calendar.Calendar;
 import models.calendar.CalendarEvent;
@@ -13,6 +14,7 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 
 import static models.calendar.CalendarEvent.DATE_FORMATTER;
+import static models.calendar.CalendarEvent.DATE_PATTERN;
 
 /**
  * A calendar operation that retrieves the busiest days within a given date range.
@@ -41,10 +43,10 @@ public class Busydays implements CalendarOperation {
 
     /**
      * Retrieves the busiest days within a given date range and prints the result to standard output.
-     * @throws OperationException if an error occurs during the execution of the operation
+     * @throws CalendarDateException if an error occurs during the execution of the operation
      */
     @Override
-    public void execute() throws OperationException {
+    public void execute() throws CalendarDateException {
         LocalDate startDate;
         LocalDate endDate;
 
@@ -53,8 +55,8 @@ public class Busydays implements CalendarOperation {
         try {
             startDate = LocalDate.parse(instructions.get(0), DATE_FORMATTER);
             endDate = LocalDate.parse(instructions.get(1), DATE_FORMATTER);
-        }catch (DateTimeParseException e){
-            throw new OperationException(e);
+        }catch (DateTimeParseException ignored){
+            throw new CalendarDateException("Invalid date format. Please use "+ DATE_PATTERN);
         }
 
         HashSet<CalendarEvent> calendarEvents=new HashSet<>(calendar.getCalendarEvents());

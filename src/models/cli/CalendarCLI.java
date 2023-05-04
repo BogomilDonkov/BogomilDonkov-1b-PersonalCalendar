@@ -2,6 +2,7 @@ package models.cli;
 
 import contracts.Operation;
 import enums.Commands;
+import exceptions.CalendarException;
 import exceptions.OperationException;
 import factories.OperationFactory;
 import models.calendar.Calendar;
@@ -64,7 +65,7 @@ public class CalendarCLI {
                 if(operation instanceof Exit)
                     break;
 
-            } catch (OperationException e) {
+            } catch (CalendarException e) {
                 System.out.println(e.getMessage());
             }
         }

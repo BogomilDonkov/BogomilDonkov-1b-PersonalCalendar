@@ -1,6 +1,6 @@
 package contracts;
 
-import exceptions.OperationException;
+import exceptions.CalendarException;
 
 /**
  * The Operation interface represents an operation that can be executed in the program.
@@ -11,8 +11,8 @@ public interface Operation {
 
    /**
     * Executes the operation.
-    * @throws OperationException if an error occurs while executing the operation.
+    * @throws CalendarException if an error occurs while executing the operation.
     */
-   void execute() throws OperationException;
+   void execute() throws CalendarException;
 
 }

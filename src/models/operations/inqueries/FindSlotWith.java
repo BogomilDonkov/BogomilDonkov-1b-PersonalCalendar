@@ -1,6 +1,7 @@
 package models.operations.inqueries;
 
 import contracts.CalendarOperation;
+import exceptions.CalendarDateException;
 import exceptions.OperationException;
 import models.calendar.Calendar;
 import models.calendar.CalendarEvent;
@@ -14,6 +15,7 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 
 import static models.calendar.CalendarEvent.DATE_FORMATTER;
+import static models.calendar.CalendarEvent.DATE_PATTERN;
 
 /**
  * A class that represents a find-slot-with operation in a calendar.
@@ -53,14 +55,15 @@ public class FindSlotWith implements CalendarOperation {
      * then combines the calendars to find the first available slot
      * and returns the start and end times of that slot.
      * @throws OperationException  if an error occurs while executing the operation
+     * @throws CalendarDateException if the input date is in invalid format.
      */
     @Override
-    public void execute() throws OperationException {
+    public void execute() throws OperationException, CalendarDateException {
         LocalDate date;
         try {
             date= LocalDate.parse(instructions.get(0), DATE_FORMATTER);
         }catch (DateTimeParseException e){
-            throw new OperationException(e);
+            throw new CalendarDateException("Invalid date format. Please use "+ DATE_PATTERN);
         }
 
         HashSet<CalendarEvent> calendarEvents=new HashSet<>(xmlParser.getCalendar().getCalendarEvents());

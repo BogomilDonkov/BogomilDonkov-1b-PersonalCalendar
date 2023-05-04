@@ -13,12 +13,4 @@ public class OperationException extends CalendarException{
     public OperationException(String message) {
         super(message);
     }
-
-    /**
-     * Constructs a new operation exception with the specified cause and a detail message of (cause==null ? null : cause.toString())
-     * @param e the cause (which is saved for later retrieval by the {@link #getCause()} method). A null value is permitted, and indicates that the cause is nonexistent or unknown.
-     */
-    public OperationException(Exception e) {
-        super(e);
-    }
 }
