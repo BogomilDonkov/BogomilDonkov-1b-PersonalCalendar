@@ -2,6 +2,7 @@ package models.operations.userDefault;
 
 import contracts.DefaultOperation;
 import exceptions.OperationException;
+import models.calendar.PersonalCalendar;
 import parsers.XMLParser;
 
 import javax.xml.bind.JAXBException;
@@ -45,6 +46,7 @@ public class Open implements DefaultOperation {
             fileDirectory+=".xml";
 
         xmlParser.setFile(new File(fileDirectory));
+        xmlParser.setCalendar(new PersonalCalendar());
 
         if(xmlParser.getFile().exists()) {
 

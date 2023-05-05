@@ -5,7 +5,7 @@ import exceptions.CalendarDateException;
 import exceptions.CalendarTimeException;
 import exceptions.InvalidTimeIntervalException;
 import exceptions.OperationException;
-import models.calendar.Calendar;
+import models.calendar.PersonalCalendar;
 import models.calendar.CalendarEvent;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class Unbook implements CalendarOperation {
     /**
      * The Calendar instance on which the operation will be executed.
      */
-    private final Calendar calendar;
+    private final PersonalCalendar personalCalendar;
 
     /**
      * The ArrayList containing the instructions for the operation.
@@ -27,11 +27,11 @@ public class Unbook implements CalendarOperation {
 
     /**
      * Constructs an instance of the Unbook class with the specified Calendar and ArrayList of instructions.
-     * @param calendar The Calendar instance on which the operation will be executed.
+     * @param personalCalendar The Calendar instance on which the operation will be executed.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
-    public Unbook(Calendar calendar, ArrayList<String> instructions) {
-        this.calendar=calendar;
+    public Unbook(PersonalCalendar personalCalendar, ArrayList<String> instructions) {
+        this.personalCalendar = personalCalendar;
         this.instructions=instructions;
     }
 
@@ -53,7 +53,7 @@ public class Unbook implements CalendarOperation {
             throw new OperationException(e.getMessage());
         }
 
-        if(calendar.getCalendarEvents().removeIf(calendarEvent::equals))
+        if(personalCalendar.getCalendarEvents().removeIf(calendarEvent::equals))
             System.out.printf("Event successfully unbooked:  %s %s %s\n",date,startTime,endTime);
         else
             throw new OperationException("\nThere is no such event booked: "+date+" "+startTime+" "+endTime);

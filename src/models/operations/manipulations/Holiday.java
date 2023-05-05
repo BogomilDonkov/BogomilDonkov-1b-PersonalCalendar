@@ -2,7 +2,7 @@ package models.operations.manipulations;
 
 import contracts.CalendarOperation;
 import exceptions.OperationException;
-import models.calendar.Calendar;
+import models.calendar.PersonalCalendar;
 import models.calendar.CalendarEvent;
 
 import java.time.LocalDate;
@@ -18,7 +18,7 @@ public class Holiday implements CalendarOperation {
     /**
      * The Calendar instance on which the operation will be executed.
      */
-    private final Calendar calendar;
+    private final PersonalCalendar personalCalendar;
 
     /**
      * The ArrayList containing the instructions for the operation.
@@ -27,11 +27,11 @@ public class Holiday implements CalendarOperation {
 
     /**
      * Constructs an instance of the Unbook class with the specified Calendar and ArrayList of instructions.
-     * @param calendar The Calendar instance on which the operation will be executed.
+     * @param personalCalendar The Calendar instance on which the operation will be executed.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
-    public Holiday(Calendar calendar, ArrayList<String> instructions) {
-        this.calendar = calendar;
+    public Holiday(PersonalCalendar personalCalendar, ArrayList<String> instructions) {
+        this.personalCalendar = personalCalendar;
         this.instructions = instructions;
     }
 
@@ -42,7 +42,7 @@ public class Holiday implements CalendarOperation {
     @Override
     public void execute() throws OperationException {
         LocalDate date= LocalDate.parse(instructions.get(0), DATE_FORMATTER);
-        for(CalendarEvent event:calendar.getCalendarEvents()){
+        for(CalendarEvent event: personalCalendar.getCalendarEvents()){
             if(event.getDate().equals(date)){
                 if(event.isHoliday())
                     throw new OperationException("That date is already holiday");
@@ -51,5 +51,6 @@ public class Holiday implements CalendarOperation {
             }
         }
         System.out.println("The date is set to holiday");
+        personalCalendar.addHoliday(date);
     }
 }

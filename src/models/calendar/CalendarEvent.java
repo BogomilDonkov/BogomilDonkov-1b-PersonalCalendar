@@ -8,6 +8,7 @@ import exceptions.InvalidTimeIntervalException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import java.time.DayOfWeek;
@@ -27,9 +28,11 @@ import java.util.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CalendarEvent  implements CalendarEventService, Comparable<CalendarEvent> {
 
+
     /**
      * The name of the event.
      */
+    @XmlElement
     private String name;
 
     /**
@@ -65,6 +68,7 @@ public class CalendarEvent  implements CalendarEventService, Comparable<Calendar
     /**
      * Additional notes about the event.
      */
+    @XmlElement
     private String note;
 
     /**

@@ -39,7 +39,7 @@ public class OperationFactory{
 
         if(checkIfFileIsLoaded()) {
             switch (command) {
-                case EXIT -> { return new Exit(); }
+                case EXIT -> { return new Exit(xmlParser); }
                 case HELP -> { return new Help(); }
                 case CLOSE -> { return new Close(xmlParser); }
                 case SAVE -> { return new Save(xmlParser); }
@@ -60,7 +60,7 @@ public class OperationFactory{
         }
         else {
             switch (command) {
-                case EXIT -> { return new Exit(); }
+                case EXIT -> { return new Exit(xmlParser); }
                 case HELP -> { return new Help(); }
                 case OPEN -> { return new Open(xmlParser, instructions); }
                 default -> throw new OperationException("There is no currently opened file at the moment.");

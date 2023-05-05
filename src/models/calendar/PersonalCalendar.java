@@ -2,7 +2,9 @@ package models.calendar;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,8 +13,8 @@ import java.util.Set;
  * This class represents a Calendar containing a set of CalendarEvents and a list of merged calendars.
  * '@XmlRootElement' annotation is used to indicate that this class should be mapped to an XML element.
  */
-@XmlRootElement
-public class Calendar {
+@XmlRootElement(name="calendar")
+public class PersonalCalendar {
 
     /**
      * Set of all calendar events
@@ -24,21 +26,30 @@ public class Calendar {
      */
     private final ArrayList<String> mergedCalendars;
 
+
+    @XmlTransient
+    /**
+     * Set of all holiday dates
+     */
+    private final Set<LocalDate> holidays;
+
     /**
      * Constructs a new Calendar object with an empty set of CalendarEvents and an empty list of merged calendars.
      */
-    public Calendar() {
+    public PersonalCalendar() {
         this.calendarEvents=new HashSet<>();
         this.mergedCalendars=new ArrayList<>();
+        this.holidays=loadHolidays();
     }
 
     /**
      * Constructs a new Calendar object with a specified set of CalendarEvents and an empty list of merged calendars.
      * @param calendarEvents the set of CalendarEvents to be included in this Calendar
      */
-    public Calendar(Set<CalendarEvent> calendarEvents) {
+    public PersonalCalendar(Set<CalendarEvent> calendarEvents) {
         this.calendarEvents = calendarEvents;
         this.mergedCalendars=new ArrayList<>();
+        this.holidays=loadHolidays();
     }
 
     /**
@@ -144,6 +155,33 @@ public class Calendar {
      */
     public ArrayList<String> getMergedCalendars() {
         return mergedCalendars;
+    }
+
+    /**
+     * Adds the date of the holiday event
+     * @param date - the date of the holiday
+     * @return
+     */
+    public boolean addHoliday(LocalDate date){
+        return holidays.add(date);
+    }
+
+
+    /**
+     * Get holidays
+     * @return {@link HashSet} of all holiday dates
+     */
+    private Set<LocalDate> loadHolidays(){
+        HashSet<LocalDate> holidays=new HashSet<>();
+        for(CalendarEvent event:calendarEvents){
+            if(event.isHoliday())
+                holidays.add(event.getDate());
+        }
+        return holidays;
+    }
+
+    public Set<LocalDate> getHolidays(){
+        return new HashSet<>(this.holidays);
     }
 
 }

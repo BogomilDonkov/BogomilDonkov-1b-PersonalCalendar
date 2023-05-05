@@ -5,8 +5,7 @@ import enums.Commands;
 import exceptions.CalendarException;
 import exceptions.OperationException;
 import factories.OperationFactory;
-import models.calendar.Calendar;
-import models.operations.userDefault.Exit;
+import models.calendar.PersonalCalendar;
 import parsers.XMLParser;
 
 import java.util.*;
@@ -32,8 +31,8 @@ public class CalendarCLI {
      * If the Operation object is an instance of the Exit class, the program terminates.
      */
     public static void run() {
-        Calendar calendar=new Calendar();
-        XMLParser xmlParser=new XMLParser(calendar);
+        PersonalCalendar personalCalendar =new PersonalCalendar();
+        XMLParser xmlParser=new XMLParser(personalCalendar);
         OperationFactory operationFactory=new OperationFactory(xmlParser);
         ArrayList<String> inputString;
         ArrayList<String> instructions;
@@ -61,10 +60,6 @@ public class CalendarCLI {
                 Operation operation=operationFactory.getOperation(command,instructions);
 
                 operation.execute();
-
-                if(operation instanceof Exit)
-                    break;
-
             } catch (CalendarException e) {
                 System.out.println(e.getMessage());
             }
@@ -88,6 +83,8 @@ public class CalendarCLI {
 
     /**
      * Checks if the length of the instructions is correct for the specified command.
+     * Book, SaveAs, Merge, Change  and Findslotwith are exceptions,
+     * because they can take more than their minimum argument size requirement.
      * @param instructions the instructions for the specified command.
      * @param command the specified command.
      * @throws OperationException if the length of the instructions is not correct for the specified command.
@@ -95,19 +92,25 @@ public class CalendarCLI {
     private static void checkInstructionsLength(ArrayList<String> instructions, Commands command) throws OperationException {
         int defaultInstructionsSize=command.getInstructions().split(" ").length;
 
-        if(command== Commands.BOOK) {
-            if(instructions.size() < defaultInstructionsSize) {
-                throw new OperationException("'" + command + "' expects " + command.getInstructions());
+        switch(command){
+            case BOOK:
+            case SAVEAS:
+            case MERGE:
+            case CHANGE:
+            case FINDSLOTWITH:
+                if(instructions.size() < defaultInstructionsSize) {
+                    throw new OperationException("'" + command + "' expects " + command.getInstructions());
+                }
+                break;
+
+            default:
+                if (instructions.size() != defaultInstructionsSize ) {
+
+                if(command.getInstructions().equals(" "))
+                    throw new OperationException("'" + command + "' does not expects arguments.");
+                else
+                    throw new OperationException("'" + command + "' expects "+command.getInstructions());
             }
-        }
-        else
-
-        if (instructions.size() != defaultInstructionsSize ) {
-
-            if(command.getInstructions().equals(" "))
-                throw new OperationException("'" + command + "' does not expects arguments.");
-            else
-                throw new OperationException("'" + command + "' expects "+command.getInstructions());
         }
     }
 }

@@ -2,7 +2,7 @@ package models.operations.inqueries;
 
 import contracts.CalendarOperation;
 import exceptions.OperationException;
-import models.calendar.Calendar;
+import models.calendar.PersonalCalendar;
 import models.calendar.CalendarEvent;
 
 import java.time.LocalDate;
@@ -22,7 +22,7 @@ public class Agenda implements CalendarOperation {
     /**
      * The Calendar instance on which the operation will be executed.
      */
-    private final Calendar calendar;
+    private final PersonalCalendar personalCalendar;
 
     /**
      * The ArrayList containing the instructions for the operation.
@@ -31,11 +31,11 @@ public class Agenda implements CalendarOperation {
 
     /**
      * Constructs an instance of the Agenda class with the specified Calendar and ArrayList of instructions.
-     * @param calendar The Calendar instance on which the operation will be executed.
+     * @param personalCalendar The Calendar instance on which the operation will be executed.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
-    public Agenda(Calendar calendar, ArrayList<String> instructions) {
-        this.calendar = calendar;
+    public Agenda(PersonalCalendar personalCalendar, ArrayList<String> instructions) {
+        this.personalCalendar = personalCalendar;
         this.instructions = instructions;
     }
 
@@ -54,7 +54,7 @@ public class Agenda implements CalendarOperation {
         }
 
         List<CalendarEvent> eventsForSort=new ArrayList<>();
-        for(CalendarEvent event:calendar.getCalendarEvents()){
+        for(CalendarEvent event: personalCalendar.getCalendarEvents()){
             if(event.getDate().equals(date)){
                 eventsForSort.add(event);
             }

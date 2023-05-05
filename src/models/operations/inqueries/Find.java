@@ -2,7 +2,7 @@ package models.operations.inqueries;
 
 import contracts.CalendarOperation;
 import exceptions.OperationException;
-import models.calendar.Calendar;
+import models.calendar.PersonalCalendar;
 import models.calendar.CalendarEvent;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class Find implements CalendarOperation {
     /**
      * The Calendar instance on which the operation will be executed.
      */
-    private final Calendar calendar;
+    private final PersonalCalendar personalCalendar;
 
     /**
      * The ArrayList containing the instructions for the operation.
@@ -26,11 +26,11 @@ public class Find implements CalendarOperation {
 
     /**
      * Constructs an instance of the Find class with the specified Calendar and ArrayList of instructions.
-     * @param calendar The Calendar instance on which the operation will be executed.
+     * @param personalCalendar The Calendar instance on which the operation will be executed.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
-    public Find(Calendar calendar, ArrayList<String> instructions) {
-        this.calendar = calendar;
+    public Find(PersonalCalendar personalCalendar, ArrayList<String> instructions) {
+        this.personalCalendar = personalCalendar;
         this.instructions = instructions;
     }
 
@@ -43,7 +43,7 @@ public class Find implements CalendarOperation {
     @Override
     public void execute() throws OperationException {
         HashSet<CalendarEvent> foundedEvents=new HashSet<>();
-        HashSet<CalendarEvent> calendarEvents=new HashSet<>(calendar.getCalendarEvents());
+        HashSet<CalendarEvent> calendarEvents=new HashSet<>(personalCalendar.getCalendarEvents());
 
         StringBuilder stringToSearch=new StringBuilder();
         int counter=0;

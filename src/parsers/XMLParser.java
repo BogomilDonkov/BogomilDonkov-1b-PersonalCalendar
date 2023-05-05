@@ -1,7 +1,7 @@
 package parsers;
 
 import contracts.FileParser;
-import models.calendar.Calendar;
+import models.calendar.PersonalCalendar;
 import models.calendar.CalendarEvent;
 
 import javax.xml.bind.JAXBContext;
@@ -23,16 +23,16 @@ public class XMLParser implements FileParser<CalendarEvent> {
     private File file;
 
     /**
-     * The {@link Calendar} object that contains the parsed CalendarEvents.
+     * The {@link PersonalCalendar} object that contains the parsed CalendarEvents.
      */
-    private Calendar calendar;
+    private PersonalCalendar personalCalendar;
 
     /**
      * Constructs a {@link XMLParser} object with the provided {@link XMLParser} and instruction list.
-     * @param calendar The {@link Calendar} object that will be used to parse the calendar.
+     * @param personalCalendar The {@link PersonalCalendar} object that will be used to parse the calendar.
      */
-    public XMLParser(Calendar calendar) {
-        this.calendar=calendar;
+    public XMLParser(PersonalCalendar personalCalendar) {
+        this.personalCalendar = personalCalendar;
     }
 
     /**
@@ -41,10 +41,10 @@ public class XMLParser implements FileParser<CalendarEvent> {
      * @throws JAXBException if there is an error creating the file.
      */
     public void createFileIfNotExist(String path) throws JAXBException {
-        JAXBContext context = JAXBContext.newInstance(Calendar.class);
+        JAXBContext context = JAXBContext.newInstance(PersonalCalendar.class);
 
         Marshaller marshaller = context.createMarshaller();
-        marshaller.marshal(calendar, new File(path));
+        marshaller.marshal(personalCalendar, new File(path));
     }
 
     /**
@@ -63,9 +63,9 @@ public class XMLParser implements FileParser<CalendarEvent> {
      */
     public void readFile() throws JAXBException {
 
-        JAXBContext jaxbContext=JAXBContext.newInstance(Calendar.class);
+        JAXBContext jaxbContext=JAXBContext.newInstance(PersonalCalendar.class);
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        calendar=(Calendar) unmarshaller.unmarshal(file);
+        personalCalendar =(PersonalCalendar) unmarshaller.unmarshal(file);
     }
 
 
@@ -77,11 +77,11 @@ public class XMLParser implements FileParser<CalendarEvent> {
      */
     public Set<CalendarEvent> readFile(String path) throws JAXBException {
 
-        JAXBContext jaxbContext=JAXBContext.newInstance(Calendar.class);
+        JAXBContext jaxbContext=JAXBContext.newInstance(PersonalCalendar.class);
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        Calendar calendar=(Calendar) unmarshaller.unmarshal(new File(path));
+        PersonalCalendar personalCalendar =(PersonalCalendar) unmarshaller.unmarshal(new File(path));
 
-        return calendar.getCalendarEvents();
+        return personalCalendar.getCalendarEvents();
     }
 
     /**
@@ -90,10 +90,10 @@ public class XMLParser implements FileParser<CalendarEvent> {
      */
     public void writeFile() throws JAXBException {
 
-        JAXBContext jaxbContext=JAXBContext.newInstance(Calendar.class);
+        JAXBContext jaxbContext=JAXBContext.newInstance(PersonalCalendar.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        marshaller.marshal(calendar,file);
+        marshaller.marshal(personalCalendar,file);
     }
 
 
@@ -119,16 +119,16 @@ public class XMLParser implements FileParser<CalendarEvent> {
      * Returns the Calendar object containing the parsed CalendarEvents.
      * @return the Calendar object containing the parsed CalendarEvents.
      */
-    public Calendar getCalendar() {
-        return calendar;
+    public PersonalCalendar getCalendar() {
+        return personalCalendar;
     }
 
     /**
      * Sets the Calendar
-     * @param calendar The calendar to be parsed
+     * @param personalCalendar The calendar to be parsed
      */
-    public void setCalendar(Calendar calendar) {
-        this.calendar = calendar;
+    public void setCalendar(PersonalCalendar personalCalendar) {
+        this.personalCalendar = personalCalendar;
     }
 
     //endregion

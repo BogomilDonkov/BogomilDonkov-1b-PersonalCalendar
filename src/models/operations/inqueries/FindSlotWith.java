@@ -3,7 +3,7 @@ package models.operations.inqueries;
 import contracts.CalendarOperation;
 import exceptions.CalendarDateException;
 import exceptions.OperationException;
-import models.calendar.Calendar;
+import models.calendar.PersonalCalendar;
 import models.calendar.CalendarEvent;
 import parsers.XMLParser;
 
@@ -102,10 +102,10 @@ public class FindSlotWith implements CalendarOperation {
             //Ако няма такова, правим проверка дали е възможно да се запази поне едно събитие с дадената продължителност.
             //Ако не може прескачаме този цикъл
             if(checkIfEventExistInCalendar(date,calendarEvents)) {
-                Calendar externalCalendar = new Calendar();
-                externalCalendar.setCalendarEvents(externalFileCalendarEvents);
+                PersonalCalendar externalPersonalCalendar = new PersonalCalendar();
+                externalPersonalCalendar.setCalendarEvents(externalFileCalendarEvents);
                 ArrayList<String> subListInstructions = new ArrayList<>(instructions.subList(0, 2));
-                FindSlot findSlot = new FindSlot(externalCalendar, subListInstructions);
+                FindSlot findSlot = new FindSlot(externalPersonalCalendar, subListInstructions);
                 if (findSlot.findFreeSpaceInCalendar().isEmpty())
                     continue;
             }
@@ -118,10 +118,10 @@ public class FindSlotWith implements CalendarOperation {
 
             ArrayList<String> subListInstructions = new ArrayList<>(instructions.subList(0, 2));
 
-            Calendar mixedCalendar=new Calendar();
-            mixedCalendar.setCalendarEvents(combineCalendars(loadedCalendarEventsFiltered,externalCalendarEventsFiltered));
+            PersonalCalendar mixedPersonalCalendar =new PersonalCalendar();
+            mixedPersonalCalendar.setCalendarEvents(combineCalendars(loadedCalendarEventsFiltered,externalCalendarEventsFiltered));
 
-            FindSlot findSlot=new FindSlot(mixedCalendar,subListInstructions);
+            FindSlot findSlot=new FindSlot(mixedPersonalCalendar,subListInstructions);
             findSlot.execute();
         }
     }

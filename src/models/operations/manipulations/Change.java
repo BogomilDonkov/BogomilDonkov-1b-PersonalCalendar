@@ -2,7 +2,7 @@ package models.operations.manipulations;
 
 import contracts.CalendarOperation;
 import exceptions.*;
-import models.calendar.Calendar;
+import models.calendar.PersonalCalendar;
 import models.calendar.CalendarEvent;
 
 import java.time.LocalDate;
@@ -22,7 +22,7 @@ public class Change implements CalendarOperation {
     /**
      * The Calendar instance on which the operation will be executed.
      */
-    private final Calendar calendar;
+    private final PersonalCalendar personalCalendar;
 
     /**
      * The ArrayList containing the instructions for the operation.
@@ -31,11 +31,11 @@ public class Change implements CalendarOperation {
 
     /**
      * Constructs an instance of the Change class with the specified Calendar and ArrayList of instructions.
-     * @param calendar The Calendar instance on which the operation will be executed.
+     * @param personalCalendar The Calendar instance on which the operation will be executed.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
-    public Change(Calendar calendar, ArrayList<String> instructions) {
-        this.calendar = calendar;
+    public Change(PersonalCalendar personalCalendar, ArrayList<String> instructions) {
+        this.personalCalendar = personalCalendar;
         this.instructions = instructions;
     }
 
@@ -50,7 +50,7 @@ public class Change implements CalendarOperation {
         String option=instructions.get(2);
         String newValue=instructions.get(3);
 
-        HashSet<CalendarEvent> calendarEvents=new HashSet<>(calendar.getCalendarEvents());
+        HashSet<CalendarEvent> calendarEvents=new HashSet<>(personalCalendar.getCalendarEvents());
 
         try {
             CalendarEvent newEvent=new CalendarEvent(date,startTime);
@@ -129,7 +129,7 @@ public class Change implements CalendarOperation {
     private void checkAndUpdateCalendarEventSet(CalendarEvent newEvent,CalendarEvent oldEvent) throws OperationException {
         boolean isCompatible=true;
         HashSet<CalendarEvent> incompatibleEvents = new HashSet<>();
-        HashSet<CalendarEvent> calendarEvents=new HashSet<>(calendar.getCalendarEvents());
+        HashSet<CalendarEvent> calendarEvents=new HashSet<>(personalCalendar.getCalendarEvents());
 
         for(CalendarEvent event:calendarEvents)
         {
@@ -144,8 +144,8 @@ public class Change implements CalendarOperation {
         }
 
         if(isCompatible) {
-            calendar.remove(oldEvent);
-            calendar.addEvent(newEvent);
+            personalCalendar.remove(oldEvent);
+            personalCalendar.addEvent(newEvent);
         }
         else {
             StringBuilder descriptionBuilder=new StringBuilder();

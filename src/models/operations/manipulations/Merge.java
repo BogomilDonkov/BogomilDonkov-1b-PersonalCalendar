@@ -3,7 +3,7 @@ package models.operations.manipulations;
 import contracts.CalendarOperation;
 import exceptions.CalendarException;
 import exceptions.OperationException;
-import models.calendar.Calendar;
+import models.calendar.PersonalCalendar;
 import models.calendar.CalendarEvent;
 import parsers.XMLParser;
 
@@ -46,8 +46,8 @@ public class Merge implements CalendarOperation {
      */
     @Override
     public void execute() throws OperationException {
-        Calendar currentCalendar=xmlParser.getCalendar();
-        Set<CalendarEvent> loadedEvents=currentCalendar.getCalendarEvents();
+        PersonalCalendar currentPersonalCalendar =xmlParser.getCalendar();
+        Set<CalendarEvent> loadedEvents= currentPersonalCalendar.getCalendarEvents();
 
         for(String fileName:instructions)
         {
@@ -60,8 +60,8 @@ public class Merge implements CalendarOperation {
                 Map<CalendarEvent, HashSet<CalendarEvent>> collisionMap = new HashMap<>(getCollidedEvents(loadedEvents, newCalendarEvents));
 
                 if(collisionMap.isEmpty()){
-                    currentCalendar.addAll(newCalendarEvents);
-                    currentCalendar.addMergedCalendar(fileName);
+                    currentPersonalCalendar.addAll(newCalendarEvents);
+                    currentPersonalCalendar.addMergedCalendar(fileName);
                     continue;
                 }
                 else{

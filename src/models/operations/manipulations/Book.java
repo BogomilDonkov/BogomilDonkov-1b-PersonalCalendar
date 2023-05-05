@@ -5,12 +5,14 @@ import exceptions.CalendarDateException;
 import exceptions.CalendarTimeException;
 import exceptions.InvalidTimeIntervalException;
 import exceptions.OperationException;
-import models.calendar.Calendar;
+import models.calendar.PersonalCalendar;
 import models.calendar.CalendarEvent;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static models.calendar.CalendarEvent.DATE_FORMATTER;
+import static models.calendar.CalendarEvent.DATE_PATTERN;
 
 /**
  * The Book class implements the CalendarOperation interface and represents an operation to book a new event into the calendar.
@@ -20,7 +22,7 @@ public class Book implements CalendarOperation {
     /**
      * The Calendar instance on which the operation will be executed.
      */
-    private final Calendar calendar;
+    private final PersonalCalendar personalCalendar;
 
     /**
      * The ArrayList containing the instructions for the operation.
@@ -29,11 +31,11 @@ public class Book implements CalendarOperation {
 
     /**
      * Constructs a Book object with the given calendar and instructions.
-     * @param calendar the calendar instance to add the new event to.
+     * @param personalCalendar the calendar instance to add the new event to.
      * @param instructions the list of instructions containing the information about the event to be booked.
      */
-    public Book(Calendar calendar, ArrayList<String> instructions) {
-        this.calendar=calendar;
+    public Book(PersonalCalendar personalCalendar, ArrayList<String> instructions) {
+        this.personalCalendar = personalCalendar;
         this.instructions=instructions;
     }
 
@@ -64,7 +66,7 @@ public class Book implements CalendarOperation {
             boolean isCompatible=true;
             CalendarEvent incompatibleEvent = null;
 
-            for(CalendarEvent event:calendar.getCalendarEvents())
+            for(CalendarEvent event: personalCalendar.getCalendarEvents())
             {
                 if(!calendarEvent.checkCompatibility(event))
                 {
@@ -73,13 +75,14 @@ public class Book implements CalendarOperation {
                 }
             }
 
+            if(personalCalendar.getHolidays().contains(LocalDate.parse(date, DATE_FORMATTER)))
+                calendarEvent.setHoliday(true);
+
             if(isCompatible)
-                if(calendar.addEvent(calendarEvent))
-                    System.out.println("Event successfully booked:\n "+calendarEvent.getDate().format(DATE_FORMATTER)+" "+calendarEvent.getStartTime()+" "
-                            +calendarEvent.getEndTime()+" "+calendarEvent.getName()+" "+calendarEvent.getNote());
+                if(personalCalendar.addEvent(calendarEvent))
+                    System.out.println("Event successfully booked:\n "+calendarEvent);
                 else
-                    System.out.println("Event is already booked:\n "+calendarEvent.getDate().format(DATE_FORMATTER)+" "+calendarEvent.getStartTime()+" "
-                            +calendarEvent.getEndTime()+" "+calendarEvent.getName()+" "+calendarEvent.getNote());
+                    System.out.println("Event is already booked:\n "+calendarEvent);
             else
                 throw new OperationException("The event you have typed is currently incompatible with event:\n"+incompatibleEvent);
 

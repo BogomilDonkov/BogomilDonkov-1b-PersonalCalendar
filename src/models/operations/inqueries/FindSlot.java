@@ -3,7 +3,7 @@ package models.operations.inqueries;
 import contracts.DefaultOperation;
 import exceptions.CalendarDateException;
 import exceptions.OperationException;
-import models.calendar.Calendar;
+import models.calendar.PersonalCalendar;
 import models.calendar.CalendarEvent;
 import models.operations.util.TimeGap;
 
@@ -25,7 +25,7 @@ public class FindSlot implements DefaultOperation {
     /**
      * The Calendar instance on which the operation will be executed.
      */
-    private final Calendar calendar;
+    private final PersonalCalendar personalCalendar;
 
     /**
      * The ArrayList containing the instructions for the operation.
@@ -34,11 +34,11 @@ public class FindSlot implements DefaultOperation {
 
     /**
      * Constructs an instance of the FindSlot class with the specified Calendar and ArrayList of instructions.
-     * @param calendar The Calendar instance on which the operation will be executed.
+     * @param personalCalendar The Calendar instance on which the operation will be executed.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
-    public FindSlot(Calendar calendar, ArrayList<String> instructions) {
-        this.calendar = calendar;
+    public FindSlot(PersonalCalendar personalCalendar, ArrayList<String> instructions) {
+        this.personalCalendar = personalCalendar;
         this.instructions = instructions;
     }
 
@@ -70,6 +70,7 @@ public class FindSlot implements DefaultOperation {
      */
     public ArrayList<TimeGap> findFreeSpaceInCalendar() throws OperationException, CalendarDateException {
         ArrayList<TimeGap> freeTimeGaps=new ArrayList<>();
+
         double hours;
         LocalDate date;
         try {
@@ -83,13 +84,16 @@ public class FindSlot implements DefaultOperation {
 
         LocalTime startTime = LocalTime.parse("08:00");
         LocalTime endTime = LocalTime.parse("17:00");
+
         Duration duration;
 
-        HashSet<CalendarEvent> calendarEvents=new HashSet<>(calendar.getCalendarEvents());
+        HashSet<CalendarEvent> calendarEvents=new HashSet<>(personalCalendar.getCalendarEvents());
 
         List<CalendarEvent> filteredCalendarEvents =
                 new ArrayList<>(calendarEvents.stream().filter(item -> item.getDate().equals(date)).toList());
+
         Collections.sort(filteredCalendarEvents);
+
         for(CalendarEvent event:filteredCalendarEvents) {
             duration = Duration.between(startTime,event.getStartTime());
             double difference = duration.toHours() + (double) (duration.toMinutes() % 60) / 60;

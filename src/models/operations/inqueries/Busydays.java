@@ -3,8 +3,7 @@ package models.operations.inqueries;
 import comparators.DurationComparator;
 import contracts.CalendarOperation;
 import exceptions.CalendarDateException;
-import exceptions.OperationException;
-import models.calendar.Calendar;
+import models.calendar.PersonalCalendar;
 import models.calendar.CalendarEvent;
 
 import java.time.DayOfWeek;
@@ -24,7 +23,7 @@ public class Busydays implements CalendarOperation {
     /**
      * The Calendar instance on which the operation will be executed.
      */
-    private final Calendar calendar;
+    private final PersonalCalendar personalCalendar;
 
     /**
      * The ArrayList containing the instructions for the operation.
@@ -33,11 +32,11 @@ public class Busydays implements CalendarOperation {
 
     /**
      * Constructs an instance of the Busydays class with the specified Calendar and ArrayList of instructions.
-     * @param calendar The Calendar instance on which the operation will be executed.
+     * @param personalCalendar The Calendar instance on which the operation will be executed.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
-    public Busydays(Calendar calendar, ArrayList<String> instructions) {
-        this.calendar = calendar;
+    public Busydays(PersonalCalendar personalCalendar, ArrayList<String> instructions) {
+        this.personalCalendar = personalCalendar;
         this.instructions = instructions;
     }
 
@@ -59,7 +58,7 @@ public class Busydays implements CalendarOperation {
             throw new CalendarDateException("Invalid date format. Please use "+ DATE_PATTERN);
         }
 
-        HashSet<CalendarEvent> calendarEvents=new HashSet<>(calendar.getCalendarEvents());
+        HashSet<CalendarEvent> calendarEvents=new HashSet<>(personalCalendar.getCalendarEvents());
         for(CalendarEvent event:calendarEvents){
             if((event.getDate().isAfter(startDate) || event.getDate().equals(startDate))) {
                 if (event.getDate().isBefore(endDate)||event.getDate().equals(endDate)) {

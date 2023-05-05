@@ -1,10 +1,4 @@
-import models.calendar.Calendar;
-import models.calendar.CalendarEvent;
 import models.cli.CalendarCLI;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * The entry point of the calendar program.
