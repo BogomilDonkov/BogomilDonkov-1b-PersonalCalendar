@@ -328,9 +328,6 @@ public class CalendarEvent  implements CalendarEventService, Comparable<Calendar
      */
     public void setDate(LocalDate date) throws InvalidTimeIntervalException {
         this.date = date;
-        if(this.startTime.isAfter(this.endTime)) {
-            throw new InvalidTimeIntervalException();
-        }
     }
 
     /**
@@ -347,10 +344,10 @@ public class CalendarEvent  implements CalendarEventService, Comparable<Calendar
      * @throws InvalidTimeIntervalException if the new start time is after the current end time of the event
      */
     public void setStartTime(LocalTime startTime) throws InvalidTimeIntervalException {
-        this.startTime = startTime;
-        if(this.startTime.isAfter(this.endTime)) {
+        if(startTime.isAfter(this.endTime)) {
             throw new InvalidTimeIntervalException();
         }
+        this.startTime = startTime;
     }
 
     /**
