@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<calendar>
+    <event isHoliday="false">
+        <name>nm</name>
+        <date>24-04-2023</date>
+        <startTime>10:30</startTime>
+        <endTime>11:00</endTime>
+        <note>nsa </note>
+    </event>
+</calendar>

@@ -3,29 +3,36 @@
     <event isHoliday="false">
         <name>Volley</name>
         <date>24-04-2023</date>
-        <startTime>16:30</startTime>
-        <endTime>17:00</endTime>
         <note>First training </note>
+        <endTime>17:00</endTime>
+        <startTime>16:30</startTime>
     </event>
     <event isHoliday="false">
         <name>Volley</name>
         <date>24-04-2023</date>
-        <startTime>08:40</startTime>
-        <endTime>09:50</endTime>
         <note>neshto nishto neshto </note>
+        <endTime>09:50</endTime>
+        <startTime>08:40</startTime>
     </event>
     <event isHoliday="false">
-        <name>Basketball</name>
+        <name>"Volleyball"</name>
         <date>24-04-2023</date>
-        <startTime>08:00</startTime>
-        <endTime>09:10</endTime>
-        <note>First training </note>
+        <note>"Warm up first !"</note>
+        <endTime>22:00</endTime>
+        <startTime>20:00</startTime>
+    </event>
+    <event isHoliday="false">
+        <name>"Volleyball"</name>
+        <date>25-04-2023</date>
+        <note>""</note>
+        <endTime>22:00</endTime>
+        <startTime>20:00</startTime>
     </event>
     <event isHoliday="false">
         <name>Baseball</name>
         <date>24-04-2023</date>
-        <startTime>18:30</startTime>
-        <endTime>19:00</endTime>
         <note>First training </note>
+        <endTime>19:00</endTime>
+        <startTime>18:30</startTime>
     </event>
 </calendar>
