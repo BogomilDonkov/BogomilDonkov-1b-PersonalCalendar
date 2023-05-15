@@ -10,6 +10,7 @@ import project.models.parsers.LocalTimeParser;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -40,7 +41,7 @@ public class Unbook implements CalendarOperation {
      * @param personalCalendar The Calendar instance on which the operation will be executed.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
-    public Unbook(PersonalCalendar personalCalendar, ArrayList<String> instructions) throws CalendarTimeException, CalendarDateException {
+    public Unbook(PersonalCalendar personalCalendar, List<String> instructions) throws CalendarTimeException, CalendarDateException {
 
         this.loadedCalendarEvents=personalCalendar.getCalendarEvents();
         this.date= LocalDateParser.parse(instructions.get(0));

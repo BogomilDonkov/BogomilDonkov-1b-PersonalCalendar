@@ -7,6 +7,7 @@ import project.util.CalendarScanner;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The SaveAs class implements the DefaultOperation interface and represents a command to save the current calendar to a new file.
@@ -21,14 +22,14 @@ public class SaveAs implements DefaultOperation {
     /**
      * The ArrayList containing the instructions for the operation.
      */
-    private final ArrayList<String> instructions;
+    private final List<String> instructions;
 
     /**
      * Constructs a SaveAs object with the provided XMLParser and instruction list.
      * @param xmlParser The XMLParser object that will be used to parse the calendar.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
-    public SaveAs(XMLParser xmlParser, ArrayList<String> instructions) {
+    public SaveAs(XMLParser xmlParser, List<String> instructions) {
         this.xmlParser = xmlParser;
         this.instructions=instructions;
     }

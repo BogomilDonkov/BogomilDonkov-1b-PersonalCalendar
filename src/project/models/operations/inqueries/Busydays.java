@@ -39,7 +39,7 @@ public class Busydays implements CalendarOperation {
     private Map<DayOfWeek,Duration> busydaysMap;
 
 
-    public Busydays(PersonalCalendar personalCalendar, ArrayList<String> instructions) throws CalendarDateException {
+    public Busydays(PersonalCalendar personalCalendar, List<String> instructions) throws CalendarDateException {
 
         startDate= LocalDateParser.parse(instructions.get(0));
         endDate= LocalDateParser.parse(instructions.get(1));

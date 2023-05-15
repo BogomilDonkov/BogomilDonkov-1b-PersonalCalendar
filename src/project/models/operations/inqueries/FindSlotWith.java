@@ -49,7 +49,7 @@ public class FindSlotWith implements CalendarOperation {
      * @param xmlParser The XMLParser object that will be used to parse the calendar.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
-    public FindSlotWith(XMLParser xmlParser, ArrayList<String> instructions) throws CalendarException {
+    public FindSlotWith(XMLParser xmlParser, List<String> instructions) throws CalendarException {
         loadedCalendar=xmlParser.getCalendar();
         personalCalendars=new HashSet<>();
         date= LocalDateParser.parse(instructions.get(0));

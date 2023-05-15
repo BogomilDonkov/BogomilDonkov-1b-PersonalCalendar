@@ -35,8 +35,8 @@ public class CalendarCLI {
         PersonalCalendar personalCalendar =new PersonalCalendar();
         XMLParser xmlParser=XMLParser.getInstance(personalCalendar);
         OperationFactory operationFactory=new OperationFactory(xmlParser);
-        ArrayList<String> inputString;
-        ArrayList<String> instructions;
+        List<String> inputString;
+        List<String> instructions;
         System.out.println("~ CALENDAR APPLICATION ~\n");
 
         while(true) {
@@ -48,7 +48,7 @@ public class CalendarCLI {
                 continue;
 
             String regex ="\\s+(?=([^\"]*\"[^\"]*\")*[^\"]*$)|\"\\s+|\\s+\"";
-            inputString = new ArrayList<>(List.of(input.split(regex)));
+            inputString = Arrays.asList(input.split(regex));
 
             if(inputString.isEmpty())
                 continue;
@@ -93,7 +93,7 @@ public class CalendarCLI {
      * @param command the specified command.
      * @throws OperationException if the length of the instructions is not correct for the specified command.
      */
-    private static void checkInstructionsLength(ArrayList<String> instructions, Commands command) throws OperationException {
+    private static void checkInstructionsLength(List<String> instructions, Commands command) throws OperationException {
         int defaultInstructionsSize=command.getInstructions().split(" ").length;
 
         switch(command){

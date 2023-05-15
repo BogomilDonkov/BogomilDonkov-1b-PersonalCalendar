@@ -31,7 +31,7 @@ public class Merge implements CalendarOperation {
      * @param xmlParser The XMLParser object that will be used to parse the calendar.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
-    public Merge(XMLParser xmlParser, ArrayList<String> instructions) throws OperationException {
+    public Merge(XMLParser xmlParser, List<String> instructions) throws OperationException {
         loadedCalendar=xmlParser.getCalendar();
         openedFile=xmlParser.getFile();
         this.passedCalendars=new HashMap<>();

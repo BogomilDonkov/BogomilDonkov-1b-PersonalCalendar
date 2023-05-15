@@ -9,6 +9,7 @@ import project.models.parsers.LocalDateParser;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Holiday class represents an operation to set a date to be a holiday.
@@ -30,7 +31,7 @@ public class Holiday implements CalendarOperation {
      * @param personalCalendar The Calendar instance on which the operation will be executed.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
-    public Holiday(PersonalCalendar personalCalendar, ArrayList<String> instructions) throws CalendarDateException {
+    public Holiday(PersonalCalendar personalCalendar, List<String> instructions) throws CalendarDateException {
         this.personalCalendar = personalCalendar;
         date= LocalDateParser.parse(instructions.get(0));
     }

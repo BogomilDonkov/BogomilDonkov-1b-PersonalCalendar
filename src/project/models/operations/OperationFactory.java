@@ -9,6 +9,7 @@ import project.models.operations.userDefault.*;
 import project.models.operations.inqueries.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A factory class for creating project.models.operations based on the user input command.
@@ -35,7 +36,7 @@ public class OperationFactory{
      * @return the operation based on the user input command.
      * @throws OperationException if the command is not recognized or if the instructions are not correct for the specified command.
      */
-    public Operation getOperation(Commands command, ArrayList<String> instructions) throws CalendarException {
+    public Operation getOperation(Commands command, List<String> instructions) throws CalendarException {
 
         if(checkIfFileIsLoaded()) {
             switch (command) {

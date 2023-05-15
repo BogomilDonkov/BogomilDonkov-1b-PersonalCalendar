@@ -30,7 +30,7 @@ public class Agenda implements CalendarOperation {
     private Set<CalendarEvent> calendarEvents;
 
 
-    public Agenda(PersonalCalendar personalCalendar, ArrayList<String> instructions) throws CalendarDateException {
+    public Agenda(PersonalCalendar personalCalendar, List<String> instructions) throws CalendarDateException {
 
         date= LocalDateParser.parse(instructions.get(0));
         calendarEvents=personalCalendar.getCalendarEvents();

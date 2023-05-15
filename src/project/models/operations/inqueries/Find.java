@@ -7,6 +7,7 @@ import project.models.calendar.CalendarEvent;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -31,7 +32,7 @@ public class Find implements CalendarOperation {
     private Set<CalendarEvent> foundedEvents;
 
 
-    public Find(PersonalCalendar personalCalendar, ArrayList<String> instructions) {
+    public Find(PersonalCalendar personalCalendar, List<String> instructions) {
         foundedEvents=new HashSet<>();
         calendarEvents=personalCalendar.getCalendarEvents();
         stringToSearch=new StringBuilder();

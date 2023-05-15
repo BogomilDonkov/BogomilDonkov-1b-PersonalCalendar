@@ -10,6 +10,7 @@ import project.models.parsers.LocalTimeParser;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Book class implements the CalendarOperation interface and represents an operation to book a new event into the calendar.
@@ -50,7 +51,7 @@ public class Book implements CalendarOperation {
      * @param personalCalendar the calendar instance to add the new event to.
      * @param instructions the list of instructions containing the information about the event to be booked.
      */
-    public Book(PersonalCalendar personalCalendar, ArrayList<String> instructions) throws CalendarDateException, CalendarTimeException {
+    public Book(PersonalCalendar personalCalendar, List<String> instructions) throws CalendarDateException, CalendarTimeException {
         this.personalCalendar = personalCalendar;
         this.date= LocalDateParser.parse(instructions.get(0));
         this.startTime= LocalTimeParser.parse(instructions.get(1));

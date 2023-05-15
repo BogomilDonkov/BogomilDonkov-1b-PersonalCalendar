@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 
 /**
@@ -47,7 +48,7 @@ public class Change implements CalendarOperation {
      * @param personalCalendar The Calendar instance on which the operation will be executed.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
-    public Change(PersonalCalendar personalCalendar, ArrayList<String> instructions) throws CalendarDateException, CalendarTimeException {
+    public Change(PersonalCalendar personalCalendar, List<String> instructions) throws CalendarDateException, CalendarTimeException {
         this.personalCalendar = personalCalendar;
         date= LocalDateParser.parse(instructions.get(0));
         startTime= LocalTimeParser.parse(instructions.get(1));
