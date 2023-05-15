@@ -34,12 +34,22 @@ public class Help implements DefaultOperation {
      */
     //region Internal Methods
     private void buildDescription(StringBuilder builder, String name, String instructions, String description, Enum<?> commands) {
-        builder.append("\n\t");
+        builder.append("\t");
         builder.append(String.format("%-15s", name));
         builder.append("\t");
         builder.append(String.format("%-45s", instructions));
         builder.append("\t");
-        builder.append(description);
+
+        if(description.length()<80){
+            builder.append(description).append("\n");
+        }else{
+            String [] formatedDescription=description.split("(?<=\\.)\\s");
+            builder.append(formatedDescription[0]).append("\n");
+            for(int i=1;i< formatedDescription.length;i++){
+                String str = " ".repeat(72);
+                builder.append(str).append(formatedDescription[i]).append("\n");
+            }
+        }
     }
 
     //endregion

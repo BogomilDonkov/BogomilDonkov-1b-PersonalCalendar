@@ -37,6 +37,7 @@ public class CalendarCLI {
         OperationFactory operationFactory=new OperationFactory(xmlParser);
         ArrayList<String> inputString;
         ArrayList<String> instructions;
+        System.out.println("~ CALENDAR APPLICATION ~\n");
 
         while(true) {
             System.out.print(">");
@@ -46,7 +47,7 @@ public class CalendarCLI {
             if(input.equals(""))
                 continue;
 
-            String regex ="\\s+(?=(?:[^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*$)(?=(?:[^']*'[^']*')*[^']*$)";
+            String regex ="\\s+(?=([^\"]*\"[^\"]*\")*[^\"]*$)|\"\\s+|\\s+\"";
             inputString = new ArrayList<>(List.of(input.split(regex)));
 
             if(inputString.isEmpty())
