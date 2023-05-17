@@ -2,6 +2,7 @@ package project.models.operations.inqueries;
 
 import project.contracts.CalendarOperation;
 import project.exceptions.*;
+import project.models.calendar.CalendarService;
 import project.models.calendar.PersonalCalendar;
 import project.models.calendar.CalendarEvent;
 import project.models.parsers.LocalDateParser;
@@ -45,38 +46,43 @@ public class FindSlotWith implements CalendarOperation {
     private List<String> subListOfInstructions;
 
     /**
-     * Constructs a FindSlotWith object with the provided XMLParser and instruction list.
-     * @param xmlParser The XMLParser object that will be used to parse the calendar.
+     * Filtered caledar events from loaded calendar
+     */
+    private HashSet<CalendarEvent> loadedCalendarEventsFiltered;
+
+    /**
+     * Constructs a FindSlotWith object with the provided CalendarService and instruction list.
+     * @param calendarService The CalendarService object that will be used to parse the calendar.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
-    public FindSlotWith(XMLParser xmlParser, List<String> instructions) throws CalendarException {
-        loadedCalendar=xmlParser.getCalendar();
+    public FindSlotWith(CalendarService calendarService, List<String> instructions) throws CalendarException {
+        loadedCalendar=calendarService.getRepository();
         personalCalendars=new HashSet<>();
         date= LocalDateParser.parse(instructions.get(0));
-
         subListOfInstructions=instructions.subList(0,2);
 
-        for(int i=2;i<instructions.size();i++){
-            String externalFileDirectory=instructions.get(i);
+        loadedCalendarEventsFiltered=new HashSet<>(loadedCalendar.getCalendarEvents().stream().filter(item -> item.getDate().equals(date)).toList());
 
-            if(!externalFileDirectory.endsWith(".xml"))
-                externalFileDirectory+=".xml";
+        for(int i=2;i<instructions.size();i++) {
+            String externalFileDirectory = instructions.get(i);
 
-            File file=new File(externalFileDirectory);
+            if (!externalFileDirectory.endsWith(".xml"))
+                externalFileDirectory += ".xml";
 
-            if(xmlParser.getFile().equals(file)){
+            File file = new File(externalFileDirectory);
+
+            if (calendarService.getLoadedFile().equals(file)) {
                 System.out.println("You can't pass as an argument currently opened calendar.\n");
                 continue;
             }
 
-            if(xmlParser.getFile().exists()) {
-                PersonalCalendar calendar=xmlParser.readFile(externalFileDirectory);
+            if (calendarService.getLoadedFile().exists()) {
+                PersonalCalendar calendar = calendarService.getParser().readFile(new File(externalFileDirectory));
                 calendar.setName(externalFileDirectory);
                 personalCalendars.add(calendar);
+            } else{
+                throw new OperationException("File " + externalFileDirectory + "does not exist.\nOperation cancelled");
             }
-            else
-                throw new OperationException("File "+externalFileDirectory + "does not exist.\nOperation cancelled");
-
         }
     }
 
@@ -102,7 +108,6 @@ public class FindSlotWith implements CalendarOperation {
             }
         }
 
-
         for(PersonalCalendar externalPersonalCalendar:personalCalendars){
 
             if(checkIfEventExistInCalendar(date,loadedCalendar.getCalendarEvents())) {
@@ -113,12 +118,10 @@ public class FindSlotWith implements CalendarOperation {
                     continue;
             }
 
-            HashSet<CalendarEvent> loadedCalendarEventsFiltered=new HashSet<>(loadedCalendar.getCalendarEvents().stream().filter(item -> item.getDate().equals(date)).toList());
-
             HashSet<CalendarEvent> externalCalendarEventsFiltered=new HashSet<>(externalPersonalCalendar.getCalendarEvents().stream().filter(item -> item.getDate().equals(date)).toList());
 
             PersonalCalendar mixedPersonalCalendar =new PersonalCalendar();
-            mixedPersonalCalendar.setCalendarEvents(combineCalendars(loadedCalendarEventsFiltered,externalCalendarEventsFiltered));
+            mixedPersonalCalendar.setCalendarEvents(combineCalendars(externalCalendarEventsFiltered));
 
             System.out.print("\n"+externalPersonalCalendar.getName()+" - ");
             new FindSlot(mixedPersonalCalendar,subListOfInstructions).execute();
@@ -133,10 +136,13 @@ public class FindSlotWith implements CalendarOperation {
      * @return true if there are any events for the given date, false otherwise
      */
     private boolean checkIfEventExistInCalendar(LocalDate dateToSearch,Set<CalendarEvent> calendarEvents){
-        for (CalendarEvent event : calendarEvents)
-            if (event.getDate().equals(dateToSearch))
-                if (!event.isHoliday())
+        for (CalendarEvent event : calendarEvents) {
+            if (event.getDate().equals(dateToSearch)) {
+                if (!event.isHoliday()) {
                     return true;
+                }
+            }
+        }
 
         return false;
     }
@@ -148,13 +154,13 @@ public class FindSlotWith implements CalendarOperation {
      * @param secondCalendar the second calendar to combine
      * @return the combined calendar
      */
-    private HashSet<CalendarEvent> combineCalendars(HashSet<CalendarEvent> firstCalendar,HashSet<CalendarEvent> secondCalendar) throws CalendarDateException, InvalidTimeIntervalException {
+    private HashSet<CalendarEvent> combineCalendars(HashSet<CalendarEvent> secondCalendar) throws CalendarDateException, InvalidTimeIntervalException {
         HashSet<CalendarEvent> combinedEventsByDate=new HashSet<>();
 
         HashSet<CalendarEvent> bannedEvents=new HashSet<>();
 
 
-        for(CalendarEvent firstCalendarEvent: firstCalendar){
+        for(CalendarEvent firstCalendarEvent: loadedCalendarEventsFiltered){
 
             for(CalendarEvent secondCalendarEvent: secondCalendar){
 
@@ -185,7 +191,7 @@ public class FindSlotWith implements CalendarOperation {
             }
         }
 
-        combinedEventsByDate.addAll(firstCalendar);
+        combinedEventsByDate.addAll(loadedCalendarEventsFiltered);
         combinedEventsByDate.addAll(secondCalendar);
 
         for(CalendarEvent event:bannedEvents){

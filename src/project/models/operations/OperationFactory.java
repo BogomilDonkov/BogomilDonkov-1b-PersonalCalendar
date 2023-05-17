@@ -1,8 +1,10 @@
 package project.models.operations;
 
+import project.contracts.FileParser;
 import project.contracts.Operation;
 import project.exceptions.CalendarException;
 import project.exceptions.OperationException;
+import project.models.calendar.CalendarService;
 import project.models.operations.manipulations.*;
 import project.models.parsers.XMLParser;
 import project.models.operations.userDefault.*;
@@ -19,14 +21,14 @@ public class OperationFactory{
     /**
      * The XMLParser object used for parsing the XML file.
      */
-    private final XMLParser xmlParser;
+    private final CalendarService calendarService;
 
     /**
      * Constructor for the OperationFactory class.
      * @param xmlParser the XMLParser object used for parsing the XML file.
      */
-    public OperationFactory(XMLParser xmlParser) {
-        this.xmlParser = xmlParser;
+    public OperationFactory(CalendarService calendarService) {
+        this.calendarService = calendarService;
     }
 
     /**
@@ -40,30 +42,30 @@ public class OperationFactory{
 
         if(checkIfFileIsLoaded()) {
             switch (command) {
-                case EXIT -> { return new Exit(xmlParser); }
+                case EXIT -> { return new Exit(calendarService); }
                 case HELP -> { return new Help(); }
-                case CLOSE -> { return new Close(xmlParser); }
-                case SAVE -> { return new Save(xmlParser); }
-                case SAVEAS -> { return new SaveAs(xmlParser, instructions); }
-                case OPEN -> throw new OperationException("There is currently opened file:" + xmlParser.getFile().getAbsolutePath());
-                case BOOK -> { return new Book(xmlParser.getCalendar(), instructions); }
-                case UNBOOK -> { return new Unbook(xmlParser.getCalendar(), instructions); }
-                case AGENDA -> { return new Agenda(xmlParser.getCalendar(), instructions); }
-                case CHANGE -> { return new Change(xmlParser.getCalendar(), instructions); }
-                case FIND -> { return new Find(xmlParser.getCalendar(), instructions); }
-                case HOLIDAY -> { return new Holiday(xmlParser.getCalendar(), instructions); }
-                case BUSYDAYS -> { return new Busydays(xmlParser.getCalendar(), instructions); }
-                case FINDSLOT -> { return new FindSlot(xmlParser.getCalendar(), instructions); }
-                case FINDSLOTWITH -> { return new FindSlotWith(xmlParser, instructions); }
-                case MERGE -> { return new Merge(xmlParser, instructions); }
+                case CLOSE -> { return new Close(calendarService); }
+                case SAVE -> { return new Save(calendarService); }
+                case SAVEAS -> { return new SaveAs(calendarService, instructions); }
+                case OPEN -> throw new OperationException("There is currently opened file:" + calendarService.getLoadedFile().getAbsolutePath());
+                case BOOK -> { return new Book(calendarService.getRepository(), instructions); }
+                case UNBOOK -> { return new Unbook(calendarService.getRepository(), instructions); }
+                case AGENDA -> { return new Agenda(calendarService.getRepository(), instructions); }
+                case CHANGE -> { return new Change(calendarService.getRepository(), instructions); }
+                case FIND -> { return new Find(calendarService.getRepository(), instructions); }
+                case HOLIDAY -> { return new Holiday(calendarService.getRepository(), instructions); }
+                case BUSYDAYS -> { return new Busydays(calendarService.getRepository(), instructions); }
+                case FINDSLOT -> { return new FindSlot(calendarService.getRepository(), instructions); }
+                case FINDSLOTWITH -> { return new FindSlotWith(calendarService, instructions); }
+                case MERGE -> { return new Merge(calendarService, instructions); }
                 default -> throw new OperationException("Current operation not found!");
             }
         }
         else {
             switch (command) {
-                case EXIT -> { return new Exit(xmlParser); }
+                case EXIT -> { return new Exit(calendarService); }
                 case HELP -> { return new Help(); }
-                case OPEN -> { return new Open(xmlParser, instructions); }
+                case OPEN -> { return new Open(calendarService, instructions); }
                 default -> throw new OperationException("There is no currently opened file at the moment.");
             }
         }
@@ -75,7 +77,7 @@ public class OperationFactory{
      * @return true if a file is loaded, false otherwise.
      */
     private boolean checkIfFileIsLoaded(){
-        return xmlParser.getFile() != null;
+        return calendarService.getLoadedFile() != null;
     }
 
 }

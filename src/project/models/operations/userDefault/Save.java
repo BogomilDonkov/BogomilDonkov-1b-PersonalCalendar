@@ -2,6 +2,7 @@ package project.models.operations.userDefault;
 
 import project.contracts.DefaultOperation;
 import project.exceptions.OperationException;
+import project.models.calendar.CalendarService;
 import project.models.parsers.XMLParser;
 
 import javax.xml.bind.JAXBException;
@@ -16,31 +17,34 @@ public class Save implements DefaultOperation {
     /**
      * The XMLParser object that will be used to parse the calendar.
      */
-    private final XMLParser xmlParser;
+    private final CalendarService calendarService;
 
     /**
      * The ArrayList containing the instructions for the operation.
      */
-    public Save(XMLParser xmlParser) {
-        this.xmlParser = xmlParser;
+    public Save(CalendarService calendarService) {
+        this.calendarService = calendarService;
     }
 
     /**
-     * Executes the Save command. Writes the current state of the calendar to a file using the XML parser.
+     * Executes the Save command. Writes the current state of the calendar to a file using the XMLParser from the CalendarService.
      * Deletes any merged calendars that were previously created. If an error occurs during writing, an OperationException is thrown.
      * @throws OperationException If an error occurs during writing.
      */
     @Override
     public void execute() throws OperationException {
-        xmlParser.writeFile();
+        calendarService.exportFromRepository();
 
-        ArrayList<String> mergedCalendars=xmlParser.getCalendar().getMergedCalendars();
+        ArrayList<String> mergedCalendars=calendarService.getRepository().getMergedCalendars();
 
         if(!mergedCalendars.isEmpty())
+        {
             for(String calendarName:mergedCalendars)
-                xmlParser.deleteFile(calendarName);
+            {
+                calendarService.deleteFile(calendarName);
+            }
+        }
 
-
-        System.out.println("File successfully saved "+ xmlParser.getFile().getAbsolutePath());
+        System.out.println("File successfully saved "+ calendarService.getLoadedFile().getAbsolutePath());
     }
 }

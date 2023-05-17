@@ -2,6 +2,7 @@ package project.models.operations.userDefault;
 
 import project.contracts.DefaultOperation;
 import project.exceptions.OperationException;
+import project.models.calendar.CalendarService;
 import project.models.calendar.PersonalCalendar;
 import project.models.parsers.XMLParser;
 
@@ -18,21 +19,21 @@ public class Open implements DefaultOperation {
     /**
      * The XMLParser object that will be used to parse the calendar.
      */
-    private final XMLParser xmlParser;
+    private final CalendarService calendarService;
 
     /**
-     * The ArrayList containing the instructions for the operation.
+     * Name of the file to open.
      */
-    private final List<String> instructions;
+    private String fileDirectory;
 
     /**
-     * Constructs a Open object with the provided XMLParser and instruction list.
-     * @param xmlParser The XMLParser object that will be used to parse the calendar.
+     * Constructs a Open object with the provided CalendarService and instruction list.
+     * @param calendarService The CalendarService object that will be used to parse the calendar.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
-    public Open(XMLParser xmlParser, List<String> instructions) {
-        this.xmlParser = xmlParser;
-        this.instructions=instructions;
+    public Open(CalendarService calendarService, List<String> instructions) {
+        this.calendarService = calendarService;
+        this.fileDirectory = instructions.get(0);
     }
 
     /**
@@ -41,30 +42,29 @@ public class Open implements DefaultOperation {
      */
     @Override
     public void execute() throws OperationException {
-        String fileDirectory = instructions.get(0);
 
-        if(!fileDirectory.endsWith(".xml"))
-            fileDirectory+=".xml";
+        if(!fileDirectory.endsWith(".xml")) {
+            fileDirectory += ".xml";
+        }
 
-        xmlParser.setFile(new File(fileDirectory));
-        xmlParser.setCalendar(new PersonalCalendar());
+        calendarService.setLoadedFile(new File(fileDirectory));
+        calendarService.setRepository(new PersonalCalendar());
 
-        if(xmlParser.getFile().exists()) {
+        if(calendarService.getLoadedFile().exists()) {
 
-            xmlParser.readFile();
+            calendarService.importToRepository();
 
             System.out.println("File successfully opened: " + fileDirectory);
 
-            if (xmlParser.getCalendar().isEmpty())
+            if (calendarService.getRepository().isEmpty()) {
                 System.out.println("File is empty.");
+            }
 
-            return ;
+        }else {
+
+            System.out.println("File not found.");
+            calendarService.createFileIfNotExist();
+            System.out.println("New file was created and loaded: " + fileDirectory);
         }
-
-        System.out.println("File not found.");
-
-        xmlParser.createFileIfNotExist(fileDirectory);
-
-        System.out.println("New file was created and loaded: " + fileDirectory);
     }
 }

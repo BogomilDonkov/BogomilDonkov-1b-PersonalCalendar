@@ -1,8 +1,10 @@
 package project.contracts;
 
 import project.exceptions.OperationException;
+import project.models.calendar.PersonalCalendar;
 
 import javax.xml.bind.JAXBException;
+import java.io.File;
 import java.util.Set;
 
 
@@ -18,31 +20,25 @@ public interface FileParser<T>{
      * @return a set of parsed objects
      * @throws JAXBException if an error occurs while parsing the file
      */
-    T readFile(String path) throws Exception;
-
-    /**
-     * Reads the currently open file and returns a set of parsed objects.
-     * @throws JAXBException if an error occurs while parsing the file
-     */
-    void readFile() throws Exception;
+    T readFile(File file) throws OperationException;
 
     /**
      * Writes the current state of the program to the currently open file.
      * @throws JAXBException if an error occurs while writing to the file
      */
-    void writeFile() throws Exception;
+    void writeFile(PersonalCalendar personalCalendar,File file) throws OperationException;
 
     /**
      * Creates a new file with the given path if it does not exist.
      * @param path the path of the file to create
      * @throws JAXBException if an error occurs while creating the file
      */
-    void createFileIfNotExist(String path) throws Exception;
+    void createFileIfNotExist(PersonalCalendar personalCalendar,File file) throws OperationException;
 
     /**
      * Deletes the file at the given path.
      * @param path the path of the file to delete
      * @return true if the file was successfully deleted, false otherwise
      */
-    boolean deleteFile(String path);
+    boolean deleteFile(File file);
 }

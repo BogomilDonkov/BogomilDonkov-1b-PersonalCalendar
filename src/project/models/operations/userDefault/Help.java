@@ -13,11 +13,11 @@ public class Help implements DefaultOperation {
      */
     @Override
     public void execute() {
-        StringBuilder helpBuilder = new StringBuilder();
+        StringBuilder helpBuilder=new StringBuilder();
 
-        helpBuilder.append("Default commands:\tArguments:\t\t\t\t\t\t\t\t\tDescription:\n");
+        helpBuilder.append("Default commands:\tArguments:\t\t\t\t\t\t\t\t\tDescription:");
 
-        for (Commands commands : Commands.values()) {
+        for(Commands commands:Commands.values()){
             buildDescription(helpBuilder, commands.getName(), commands.getInstructions(), commands.getDescription(), commands);
         }
 
@@ -26,31 +26,20 @@ public class Help implements DefaultOperation {
 
     /**
      * Appends the command name, instructions, and description to the provided string builder.
-     *
-     * @param builder      The string builder to append the command information to.
-     * @param name         The name of the command.
+     * @param builder The string builder to append the command information to.
+     * @param name The name of the command.
      * @param instructions The instructions for using the command.
-     * @param description  The description of what the command does.
-     * @param commands     The command being processed.
+     * @param description The description of what the command does.
+     * @param commands The command being processed.
      */
     //region Internal Methods
-    private void buildDescription(StringBuilder builder, String name, String instructions, String description, Commands commands) {
-        builder.append("\t");
+    private void buildDescription(StringBuilder builder, String name, String instructions, String description, Enum<?> commands) {
+        builder.append("\n\t");
         builder.append(String.format("%-15s", name));
         builder.append("\t");
         builder.append(String.format("%-45s", instructions));
         builder.append("\t");
-
-        if (description.length() < 80) {
-            builder.append(description).append("\n");
-        } else {
-            String[] formatedDescription = description.split("(?<=\\.)\\s");
-            builder.append(formatedDescription[0]).append("\n");
-            for (int i = 1; i < formatedDescription.length; i++) {
-                String str = " ".repeat(72);
-                builder.append(str).append(formatedDescription[i]).append("\n");
-            }
-        }
+        builder.append(description);
     }
 
     //endregion

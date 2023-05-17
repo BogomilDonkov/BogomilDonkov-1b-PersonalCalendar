@@ -2,6 +2,7 @@ package project.models.operations.userDefault;
 
 import project.contracts.DefaultOperation;
 import project.exceptions.OperationException;
+import project.models.calendar.CalendarService;
 import project.models.parsers.XMLParser;
 import project.util.CalendarScanner;
 
@@ -17,21 +18,18 @@ public class SaveAs implements DefaultOperation {
     /**
      * The XMLParser object that will be used to parse the calendar.
      */
-    private final XMLParser xmlParser;
+    private final CalendarService calendarService;
+
+    private String newFileDirectory;
 
     /**
-     * The ArrayList containing the instructions for the operation.
-     */
-    private final List<String> instructions;
-
-    /**
-     * Constructs a SaveAs object with the provided XMLParser and instruction list.
-     * @param xmlParser The XMLParser object that will be used to parse the calendar.
+     * Constructs a SaveAs object with the provided CalendarService and instruction list.
+     * @param calendarService The CalendarService object that will be used to parse the calendar.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
-    public SaveAs(XMLParser xmlParser, List<String> instructions) {
-        this.xmlParser = xmlParser;
-        this.instructions=instructions;
+    public SaveAs(CalendarService calendarService, List<String> instructions) {
+        this.calendarService = calendarService;
+        this.newFileDirectory=instructions.get(0);
     }
 
     /**
@@ -40,27 +38,28 @@ public class SaveAs implements DefaultOperation {
      */
     @Override
     public void execute() throws OperationException {
-        String newFileDirectory=instructions.get(0);
+
 
         if(!newFileDirectory.endsWith(".xml"))
             newFileDirectory+=".xml";
 
         if(checkIfFileAlreadyExistsAndSubmitUserResponse(newFileDirectory)) {
 
-            String currentDirectory = xmlParser.getFile().getAbsolutePath();
+            String currentDirectory = calendarService.getLoadedFile().getAbsolutePath();
 
-            xmlParser.setFile(new File(newFileDirectory));
+            calendarService.setLoadedFile(new File(newFileDirectory));
 
-            xmlParser.writeFile();
-            xmlParser.deleteFile(currentDirectory);
+            calendarService.exportFromRepository();
+            calendarService.deleteFile(currentDirectory);
 
-            ArrayList<String> mergedCalendars = xmlParser.getCalendar().getMergedCalendars();
+
+            ArrayList<String> mergedCalendars = calendarService.getRepository().getMergedCalendars();
 
             if (!mergedCalendars.isEmpty())
                 for (String calendarName : mergedCalendars)
-                    xmlParser.deleteFile(calendarName);
+                    calendarService.deleteFile(calendarName);
 
-            System.out.println("File saved as " + xmlParser.getFile().getAbsolutePath());
+            System.out.println("File saved as " + calendarService.getLoadedFile().getAbsolutePath());
         }
     }
 

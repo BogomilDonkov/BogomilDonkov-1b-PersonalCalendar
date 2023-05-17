@@ -1,6 +1,7 @@
 package project.models.cli;
 
 import project.contracts.Operation;
+import project.models.calendar.CalendarService;
 import project.models.operations.Commands;
 import project.exceptions.CalendarException;
 import project.exceptions.OperationException;
@@ -33,8 +34,9 @@ public class CalendarCLI {
      */
     public static void run() {
         PersonalCalendar personalCalendar =new PersonalCalendar();
-        XMLParser xmlParser=XMLParser.getInstance(personalCalendar);
-        OperationFactory operationFactory=new OperationFactory(xmlParser);
+        XMLParser xmlParser=new XMLParser();
+        CalendarService calendarService=new CalendarService(personalCalendar,xmlParser);
+        OperationFactory operationFactory=new OperationFactory(calendarService);
         List<String> inputString;
         List<String> instructions;
         System.out.println("~ CALENDAR APPLICATION ~\n");
@@ -47,7 +49,6 @@ public class CalendarCLI {
             if(input.equals(""))
                 continue;
 
-            //String regex ="\\s+(?=([^\"]*\"[^\"]*\")*[^\"]*$)|\"\\s+|\\s+\"";
             String regex="\\s+(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
             inputString = Arrays.asList(input.split(regex));
 

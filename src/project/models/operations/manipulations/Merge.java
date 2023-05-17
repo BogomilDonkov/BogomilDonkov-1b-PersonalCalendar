@@ -5,6 +5,7 @@ import project.exceptions.CalendarDateException;
 import project.exceptions.CalendarException;
 import project.exceptions.CalendarTimeException;
 import project.exceptions.OperationException;
+import project.models.calendar.CalendarService;
 import project.models.calendar.PersonalCalendar;
 import project.models.calendar.CalendarEvent;
 import project.models.parsers.LocalDateParser;
@@ -22,32 +23,38 @@ import java.util.*;
  */
 public class Merge implements CalendarOperation {
 
+    /**
+     * The repository of the project
+     */
     private PersonalCalendar loadedCalendar;
+    /**
+     * Currently opened file.
+     */
     private File openedFile;
+    /**
+     * Map of all passed calendar names and their {@link CalendarEvent}'s
+     */
     private Map<String,Set<CalendarEvent>> passedCalendars;
 
     /**
-     * Constructs a Merge object with the provided XMLParser and instruction list.
-     * @param xmlParser The XMLParser object that will be used to parse the calendar.
+     * Constructs a Merge object with the provided CalendarService and instruction list.
+     * @param calendarService The CalendarService object that will be used to parse the calendar.
      * @param instructions The ArrayList containing the instructions for the operation.
      */
-    public Merge(XMLParser xmlParser, List<String> instructions) throws OperationException {
-        loadedCalendar=xmlParser.getCalendar();
-        openedFile=xmlParser.getFile();
+    public Merge(CalendarService calendarService, List<String> instructions) throws OperationException {
+        loadedCalendar=calendarService.getRepository();
+        openedFile=calendarService.getLoadedFile();
         this.passedCalendars=new HashMap<>();
 
         for(String fileName: instructions){
             if(!fileName.endsWith(".xml"))
                 fileName+=".xml";
 
-            if(xmlParser.getFile().exists())
-                passedCalendars.put(fileName,new HashSet<>(xmlParser.readFile(fileName).getCalendarEvents()));
+            if(calendarService.getLoadedFile().exists())
+                passedCalendars.put(fileName,new HashSet<>(calendarService.getParser().readFile(new File(fileName)).getCalendarEvents()));
             else
                 throw new OperationException("File "+fileName + "does not exist.\nMerging was canceled");
         }
-
-
-
     }
 
     /**
@@ -82,7 +89,6 @@ public class Merge implements CalendarOperation {
                 else
                     throw new OperationException("Merging between " + fileName + " and " + openedFile.getName() + " was stopped.");
             }
-
         }
 
         if (!loadedCalendar.getMergedCalendars().isEmpty())
@@ -190,7 +196,7 @@ public class Merge implements CalendarOperation {
      * @return the new calendar event
      * @throws OperationException if the new calendar event is incompatible with the existing events in the calendar
      */
-    private CalendarEvent createNewEvent(CalendarEvent collidedEvent) throws OperationException, CalendarDateException, CalendarTimeException {
+    private CalendarEvent createNewEvent(CalendarEvent collidedEvent) {
         System.out.println("\nEvent to change: ");
         System.out.println(collidedEvent);
         System.out.println("New values: <date> <startTime> <endTime> " + collidedEvent.getName() + " " + collidedEvent.getNote());
@@ -214,9 +220,18 @@ public class Merge implements CalendarOperation {
             }
 
 
-            LocalDate date= LocalDateParser.parse(newInstructions.get(0));
-            LocalTime startTime= LocalTimeParser.parse(newInstructions.get(1));
-            LocalTime endTime= LocalTimeParser.parse(newInstructions.get(2));
+            LocalDate date;
+            LocalTime startTime;
+            LocalTime endTime;
+
+            try {
+                date = LocalDateParser.parse(newInstructions.get(0));
+                startTime= LocalTimeParser.parse(newInstructions.get(1));
+                endTime= LocalTimeParser.parse(newInstructions.get(2));
+            } catch (CalendarDateException | CalendarTimeException e) {
+                System.out.println(e.getMessage());
+                continue;
+            }
 
             CalendarEvent newCalendarEvent;
 
@@ -239,7 +254,8 @@ public class Merge implements CalendarOperation {
                 descriptionBuilder.append("\n");
             }
 
-            throw new OperationException(newCalendarEvent + "\n is currently incompatible with:"+descriptionBuilder);
+            System.out.println(newCalendarEvent + "\n is currently incompatible with:"+descriptionBuilder);
+            System.out.println("Please type again ");
         }
     }
     //endregion

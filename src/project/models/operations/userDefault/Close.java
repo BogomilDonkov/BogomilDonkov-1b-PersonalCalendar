@@ -1,6 +1,7 @@
 package project.models.operations.userDefault;
 
 import project.contracts.DefaultOperation;
+import project.models.calendar.CalendarService;
 import project.models.parsers.XMLParser;
 
 /**
@@ -10,25 +11,25 @@ import project.models.parsers.XMLParser;
 public class Close implements DefaultOperation {
 
     /**
-     * The XMLParser object that will be used to parse the calendar.
+     * Calendar service object contains file info and calendar repository.
      */
-    private final XMLParser xmlParser;
+    private final CalendarService calendarService;
 
     /**
-     * Constructs a Close object with the provided XMLParser object.
-     * @param xmlParser The XMLParser object that will be used to parse the calendar file.
+     * Constructs a Close object with the provided {@link CalendarService} object.
+     * @param calendarService The CalendarService object that will be used to parse the calendar file.
      */
-    public Close(XMLParser xmlParser) {
-        this.xmlParser = xmlParser;
+    public Close(CalendarService calendarService) {
+        this.calendarService = calendarService;
     }
 
     /**
-     * Closes the calendar file associated with the XMLParser object and sets the calendar and file to null.
+     * Closes the calendar file associated with the {@link CalendarService} object and sets the calendar and file to null.
      */
     @Override
     public  void execute() {
-        System.out.println("File successfully closed "+ xmlParser.getFile().getAbsolutePath());
-        xmlParser.setCalendar(null);
-        xmlParser.setFile(null);
+        System.out.println("File successfully closed "+ calendarService.getLoadedFile().getAbsolutePath());
+        calendarService.setRepository(null);
+        calendarService.setLoadedFile(null);
     }
 }
