@@ -60,7 +60,7 @@ public class CalendarService {
      * @throws OperationException If there is an error creating or writing to the file.
      */
     public void createFileIfNotExist() throws OperationException {
-        parser.createFileIfNotExist(repository,loadedFile);
+        parser.writeFile(repository,loadedFile);
     }
 
     /**
@@ -69,7 +69,7 @@ public class CalendarService {
      * @return true if the file was deleted successfully, otherwise false.
      */
     public boolean deleteFile(String filename){
-        return parser.deleteFile(new File(filename));
+        return new File(filename).delete();
     }
 
     //region Setters and Getters

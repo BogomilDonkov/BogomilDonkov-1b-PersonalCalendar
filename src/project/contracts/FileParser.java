@@ -28,17 +28,4 @@ public interface FileParser<T>{
      */
     void writeFile(PersonalCalendar personalCalendar,File file) throws OperationException;
 
-    /**
-     * Creates a new file with the given path if it does not exist.
-     * @param path the path of the file to create
-     * @throws JAXBException if an error occurs while creating the file
-     */
-    void createFileIfNotExist(PersonalCalendar personalCalendar,File file) throws OperationException;
-
-    /**
-     * Deletes the file at the given path.
-     * @param path the path of the file to delete
-     * @return true if the file was successfully deleted, false otherwise
-     */
-    boolean deleteFile(File file);
 }

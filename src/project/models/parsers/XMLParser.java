@@ -19,31 +19,6 @@ import java.util.Set;
 public final class XMLParser implements FileParser<PersonalCalendar> {
 
     /**
-     * Creates a new XML file if it does not already exist.
-     * @param path the path of the file to create.
-     * @throws JAXBException if there is an error creating the file.
-     */
-    public void createFileIfNotExist(PersonalCalendar personalCalendar,File file) throws OperationException {
-        try{
-        JAXBContext context = JAXBContext.newInstance(PersonalCalendar.class);
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.marshal(personalCalendar,file);
-        } catch (JAXBException ignored) {
-            throw new OperationException("New file cannot be created");
-        }
-    }
-
-    /**
-     * Deletes the specified file.
-     * @param path the path of the file to delete.
-     * @return true if the file was successfully deleted, false otherwise.
-     */
-    public boolean deleteFile(File file){
-        return file.delete();
-    }
-
-
-    /**
      * Reads the specified XML file and returns a set of CalendarEvents contained in the file.
      * @param path the path of the file to read.
      * @return a set of CalendarEvents contained in the file.

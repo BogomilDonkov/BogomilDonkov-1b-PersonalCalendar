@@ -21,6 +21,7 @@ public class PersonalCalendar {
      */
     @XmlTransient
     private String name;
+
     /**
      * Set of all calendar events
      */
