@@ -47,7 +47,8 @@ public class CalendarCLI {
             if(input.equals(""))
                 continue;
 
-            String regex ="\\s+(?=([^\"]*\"[^\"]*\")*[^\"]*$)|\"\\s+|\\s+\"";
+            //String regex ="\\s+(?=([^\"]*\"[^\"]*\")*[^\"]*$)|\"\\s+|\\s+\"";
+            String regex="\\s+(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
             inputString = Arrays.asList(input.split(regex));
 
             if(inputString.isEmpty())

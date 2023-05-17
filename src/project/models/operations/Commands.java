@@ -67,19 +67,17 @@ public enum Commands {
     /**
      * Command to find a free meeting place on a given date and desired duration of meeting.
      */
-    FINDSLOT("findslot","<fromDate> <hours>","Looks for a free meeting place on a given date and desired duration of meeting. Аs the meeting must be booked only on working days and in the range from 08:00 to 17:00."),
+    FINDSLOT("findslot","<fromDate> <hours>","Looks for a free meeting place on a given date and desired duration of meeting. As the meeting must be booked only on working days and in the range from 08:00 to 17:00."),
     /**
      * Command to find a free meeting place on a given date and desired duration of meeting, considering multiple calendars.
      */
     FINDSLOTWITH("findslotwith","<fromDate> <hours> <calendar>","'Findslotwith' is implementation of 'Findslot' that supports multiple calendars."),
-
     /**
      Command to merge a given calendar with the one that already loaded in the program. Supports multiple calendars.
      */
     MERGE("merge","<calendar>","Merge given calendar with the one that already loaded in the program. Supports multiple calendars.");
 
     //endregion
-
     /**
      * Name of the command
      */
