@@ -35,16 +35,6 @@ public class Save implements DefaultOperation {
     public void execute() throws OperationException {
         calendarService.exportFromRepository();
 
-        ArrayList<String> mergedCalendars=calendarService.getRepository().getMergedCalendars();
-
-        if(!mergedCalendars.isEmpty())
-        {
-            for(String calendarName:mergedCalendars)
-            {
-                calendarService.deleteFile(calendarName);
-            }
-        }
-
         System.out.println("File successfully saved "+ calendarService.getLoadedFile().getAbsolutePath());
     }
 }

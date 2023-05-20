@@ -63,15 +63,6 @@ public class CalendarService {
         parser.writeFile(repository,loadedFile);
     }
 
-    /**
-     * Deletes the specified file.
-     * @param filename The name of the file to delete.
-     * @return true if the file was deleted successfully, otherwise false.
-     */
-    public boolean deleteFile(String filename){
-        return new File(filename).delete();
-    }
-
     //region Setters and Getters
 
     /**

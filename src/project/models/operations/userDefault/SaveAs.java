@@ -50,14 +50,6 @@ public class SaveAs implements DefaultOperation {
             calendarService.setLoadedFile(new File(newFileDirectory));
 
             calendarService.exportFromRepository();
-            calendarService.deleteFile(currentDirectory);
-
-
-            ArrayList<String> mergedCalendars = calendarService.getRepository().getMergedCalendars();
-
-            if (!mergedCalendars.isEmpty())
-                for (String calendarName : mergedCalendars)
-                    calendarService.deleteFile(calendarName);
 
             System.out.println("File saved as " + calendarService.getLoadedFile().getAbsolutePath());
         }

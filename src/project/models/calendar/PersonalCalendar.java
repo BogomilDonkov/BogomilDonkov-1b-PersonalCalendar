@@ -28,11 +28,6 @@ public class PersonalCalendar {
     private Set<CalendarEvent> calendarEvents;
 
     /**
-     * List of all calendar names that were merged with this calendar
-     */
-    private final ArrayList<String> mergedCalendars;
-
-    /**
      * Set of all holiday dates
      */
     private final Set<LocalDate> holidays;
@@ -42,7 +37,6 @@ public class PersonalCalendar {
      */
     public PersonalCalendar() {
         this.calendarEvents=new HashSet<>();
-        this.mergedCalendars=new ArrayList<>();
         this.holidays=loadHolidays();
     }
 
@@ -52,7 +46,6 @@ public class PersonalCalendar {
      */
     public PersonalCalendar(Set<CalendarEvent> calendarEvents) {
         this.calendarEvents = calendarEvents;
-        this.mergedCalendars=new ArrayList<>();
         this.holidays=loadHolidays();
     }
 
@@ -108,15 +101,6 @@ public class PersonalCalendar {
     }
 
     /**
-     * Adds the name of a merged calendar to the list of merged calendars.
-     * @param calendarName the name of the merged calendar to be added
-     * @return true if the calendar name was added successfully, false otherwise
-     */
-    public boolean addMergedCalendar(String calendarName) {
-        return mergedCalendars.add(calendarName);
-    }
-
-    /**
      * Checks if a specified CalendarEvent is compatible with all CalendarEvents in this Calendar.
      * @param calendarEvent the CalendarEvent to be checked for compatibility
      * @return a Set of incompatible CalendarEvents if the specified CalendarEvent is incompatible with any CalendarEvent in this Calendar, or an empty Set otherwise
@@ -151,14 +135,6 @@ public class PersonalCalendar {
      */
     public void setCalendarEvents(Set<CalendarEvent> calendarEvents) {
         this.calendarEvents = calendarEvents;
-    }
-
-    /**
-     * Returns the list of merged calendars.
-     * @return the list of merged calendars.
-     */
-    public ArrayList<String> getMergedCalendars() {
-        return mergedCalendars;
     }
 
     /**

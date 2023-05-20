@@ -77,22 +77,20 @@ public class Merge implements CalendarOperation {
 
             if(collisionMap.isEmpty()){
                 loadedCalendar.addAll(newCalendarEvents);
-                loadedCalendar.addMergedCalendar(fileName);
+
                 continue;
             }
             else{
                 if(!askUserForCorrectionAndSubmitAnswer(collisionMap,fileName))
                     throw new OperationException("Merging between " + fileName + " and " + openedFile.getName() + " was stopped.");
 
-                if (resolveCollisions(loadedEvents, newCalendarEvents))
-                    loadedCalendar.addMergedCalendar(fileName);
-                else
+                if (!resolveCollisions(loadedEvents, newCalendarEvents))
                     throw new OperationException("Merging between " + fileName + " and " + openedFile.getName() + " was stopped.");
             }
         }
 
-        if (!loadedCalendar.getMergedCalendars().isEmpty())
-            System.out.println("All calendars: were successfully merged to " + openedFile.getName() + ".");
+
+        System.out.println("All calendars: were successfully merged to " + openedFile.getName() + ".");
     }
 
 
