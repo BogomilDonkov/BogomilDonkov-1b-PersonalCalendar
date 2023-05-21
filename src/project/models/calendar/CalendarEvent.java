@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -95,9 +96,10 @@ public class CalendarEvent  implements CalendarEventService, Comparable<Calendar
 
         if(!date.isLeapYear())
         {
-            if(date.getDayOfMonth()==29)
-            {
-                throw new CalendarDateException(date + " is not a leap year!");
+            if(date.getMonth()== Month.FEBRUARY) {
+                if (date.getDayOfMonth() > 28 || date.getDayOfMonth() <= 30) {
+                    throw new CalendarDateException(date.getYear() + " does not contain "+ date.getDayOfMonth()+" as a day in month february.");
+                }
             }
         }
 
@@ -122,9 +124,10 @@ public class CalendarEvent  implements CalendarEventService, Comparable<Calendar
 
         if(!date.isLeapYear())
         {
-            if(date.getDayOfMonth()==29)
-            {
-                throw new CalendarDateException(date + " is not a leap year!");
+            if(date.getMonth()== Month.FEBRUARY) {
+                if (date.getDayOfMonth() > 28 || date.getDayOfMonth() <= 30) {
+                    throw new CalendarDateException(date.getYear() + " does not contain "+ date.getDayOfMonth()+" as a day in month february.");
+                }
             }
         }
 
