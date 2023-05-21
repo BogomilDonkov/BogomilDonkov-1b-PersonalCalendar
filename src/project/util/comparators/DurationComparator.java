@@ -11,6 +11,11 @@ import java.util.*;
 public final class DurationComparator implements Comparator<Map.Entry<DayOfWeek,Duration>>{
 
     /**
+     * Default constructor
+     */
+    public DurationComparator(){};
+
+    /**
      * Compares two Map.Entry objects containing a DayOfWeek key and a Duration value based on the value (Duration) in ascending order.
      * @param o1 the first Map.Entry object to be compared
      * @param o2 the second Map.Entry object to be compared

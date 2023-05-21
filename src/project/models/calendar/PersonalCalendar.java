@@ -140,7 +140,7 @@ public class PersonalCalendar {
     /**
      * Adds the date of the holiday event
      * @param date the date of the holiday
-     * @return
+     * @return the result from add method
      */
     public boolean addHoliday(LocalDate date){
         return holidays.add(date);

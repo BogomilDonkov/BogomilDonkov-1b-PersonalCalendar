@@ -50,6 +50,8 @@ public class Book implements CalendarOperation {
      * Constructs a Book object with the given calendar and instructions.
      * @param personalCalendar the calendar instance to add the new event to.
      * @param instructions the list of instructions containing the information about the event to be booked.
+     * @throws CalendarDateException if the format is invalid
+     * @throws CalendarTimeException if the format is invalid
      */
     public Book(PersonalCalendar personalCalendar, List<String> instructions) throws CalendarDateException, CalendarTimeException {
         this.personalCalendar = personalCalendar;
@@ -65,6 +67,9 @@ public class Book implements CalendarOperation {
      * If the event is already booked or overlaps with another event,an OperationException is thrown.
      * @throws OperationException if the event is already booked or overlaps with another event or if
      * there is a problem with the date, start time, end time or note of the event.
+     * @throws CalendarDateException invalid date format
+     * @throws InvalidTimeIntervalException invalid time interval
+     * @throws OperationException if an error occurs
      */
     @Override
     public void execute() throws OperationException, CalendarDateException, InvalidTimeIntervalException {

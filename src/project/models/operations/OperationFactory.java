@@ -25,7 +25,7 @@ public class OperationFactory{
 
     /**
      * Constructor for the OperationFactory class.
-     * @param xmlParser the XMLParser object used for parsing the XML file.
+     * @param calendarService the object used for parsing the XML file.
      */
     public OperationFactory(CalendarService calendarService) {
         this.calendarService = calendarService;
@@ -33,10 +33,10 @@ public class OperationFactory{
 
     /**
      * Returns the operation based on the user input command.
-     * @param commandInput the user input command.
+     * @param command the user input command.
      * @param instructions the instructions that are required for the specified command.
      * @return the operation based on the user input command.
-     * @throws OperationException if the command is not recognized or if the instructions are not correct for the specified command.
+     * @throws CalendarException if the command is not recognized or if the instructions are not correct for the specified command.
      */
     public Operation getOperation(Commands command, List<String> instructions) throws CalendarException {
 

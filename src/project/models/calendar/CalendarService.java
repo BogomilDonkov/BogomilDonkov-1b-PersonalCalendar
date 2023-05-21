@@ -33,6 +33,8 @@ public class CalendarService {
 
     /**
      * A service for importing and exporting calendar data to and from files.
+     * @param repository file data is stored there
+     * @param parser the object that is used to parse the repository
      */
     public CalendarService(PersonalCalendar repository, FileParser<PersonalCalendar> parser) {
         this.repository = repository;

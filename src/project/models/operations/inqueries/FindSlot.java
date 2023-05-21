@@ -58,6 +58,9 @@ public class FindSlot implements DefaultOperation {
      * Constructs an instance of the FindSlot class with the specified Calendar and ArrayList of instructions.
      * @param personalCalendar The Calendar instance on which the operation will be executed.
      * @param instructions The ArrayList containing the instructions for the operation.
+     * @throws OperationException if hours input is invalid or if the inputed date is holiday
+     * @throws CalendarDateException if the format is invalid
+     * @throws CalendarTimeException if the format is invalid
      */
     public FindSlot(PersonalCalendar personalCalendar, List<String> instructions) throws OperationException, CalendarDateException, CalendarTimeException {
 

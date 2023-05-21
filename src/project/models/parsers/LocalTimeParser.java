@@ -24,6 +24,11 @@ public final class LocalTimeParser {
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_PATTERN);
 
     /**
+     * Default constructor
+     */
+    public LocalTimeParser(){}
+
+    /**
      * Parses a string representing a time in the format "HH:mm" into a {@link LocalTime} object.
      * @param time the string representing the time to parse
      * @return a LocalTime object representing the parsed time

@@ -54,6 +54,7 @@ public class FindSlotWith implements CalendarOperation {
      * Constructs a FindSlotWith object with the provided CalendarService and instruction list.
      * @param calendarService The CalendarService object that will be used to parse the calendar.
      * @param instructions The ArrayList containing the instructions for the operation.
+     * @throws CalendarException if user tries to pass as an argument the name of the already loaded file or if the file that is passed does not exist
      */
     public FindSlotWith(CalendarService calendarService, List<String> instructions) throws CalendarException {
         loadedCalendar=calendarService.getRepository();
@@ -93,8 +94,7 @@ public class FindSlotWith implements CalendarOperation {
      * Searches for free slots in the calendar and other external calendars,
      * then combines the calendars to find the first available slot
      * and returns the start and end times of that slot.
-     * @throws OperationException  if an error occurs while executing the operation
-     * @throws CalendarDateException if the input date is in invalid format.
+     * @throws CalendarException  if an error occurs while executing the operation
      */
     @Override
     public void execute() throws CalendarException {

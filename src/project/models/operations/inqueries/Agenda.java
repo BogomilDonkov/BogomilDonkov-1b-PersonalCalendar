@@ -29,9 +29,13 @@ public class Agenda implements CalendarOperation {
      */
     private Set<CalendarEvent> calendarEvents;
 
-
+    /**
+     * Constructs a Agenda object with the given calendar and instructions.
+     * @param personalCalendar the calendar instance to add the new event to.
+     * @param instructions the list of instructions containing the information about the event to be booked.
+     * @throws CalendarDateException if the format is invalid
+     */
     public Agenda(PersonalCalendar personalCalendar, List<String> instructions) throws CalendarDateException {
-
         date= LocalDateParser.parse(instructions.get(0));
         calendarEvents=personalCalendar.getCalendarEvents();
     }

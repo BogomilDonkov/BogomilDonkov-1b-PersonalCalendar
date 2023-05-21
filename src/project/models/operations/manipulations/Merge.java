@@ -40,6 +40,7 @@ public class Merge implements CalendarOperation {
      * Constructs a Merge object with the provided CalendarService and instruction list.
      * @param calendarService The CalendarService object that will be used to parse the calendar.
      * @param instructions The ArrayList containing the instructions for the operation.
+     * @throws OperationException if the file within given instructions does not exist
      */
     public Merge(CalendarService calendarService, List<String> instructions) throws OperationException {
         loadedCalendar=calendarService.getRepository();

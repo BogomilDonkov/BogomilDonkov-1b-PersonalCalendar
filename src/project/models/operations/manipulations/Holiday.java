@@ -30,6 +30,7 @@ public class Holiday implements CalendarOperation {
      * Constructs an instance of the Unbook class with the specified Calendar and ArrayList of instructions.
      * @param personalCalendar The Calendar instance on which the operation will be executed.
      * @param instructions The ArrayList containing the instructions for the operation.
+     * @throws CalendarDateException if the format is invalid
      */
     public Holiday(PersonalCalendar personalCalendar, List<String> instructions) throws CalendarDateException {
         this.personalCalendar = personalCalendar;

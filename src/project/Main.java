@@ -7,6 +7,10 @@ import project.models.cli.CalendarCLI;
  */
 public class Main {
     /**
+     * Private Constructor
+     */
+    private Main(){}
+    /**
      * The main method that starts the calendar program by calling the CalendarCLI run method.
      * @param args The command line arguments (not used).
      */

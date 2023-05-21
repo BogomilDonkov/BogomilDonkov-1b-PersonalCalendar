@@ -47,6 +47,8 @@ public class Change implements CalendarOperation {
      * Constructs an instance of the Change class with the specified Calendar and ArrayList of instructions.
      * @param personalCalendar The Calendar instance on which the operation will be executed.
      * @param instructions The ArrayList containing the instructions for the operation.
+     * @throws CalendarDateException if the format is invalid
+     * @throws CalendarTimeException if the format is invalid
      */
     public Change(PersonalCalendar personalCalendar, List<String> instructions) throws CalendarDateException, CalendarTimeException {
         this.personalCalendar = personalCalendar;
@@ -59,6 +61,9 @@ public class Change implements CalendarOperation {
     /**
      * Executes the change operation by parsing the instructions and modifying the existing event in the calendar accordingly.
      * @throws OperationException if there is an error while executing the operation.
+     * @throws InvalidTimeIntervalException invalid time interval
+     * @throws CalendarDateException invalid input format
+     * @throws CalendarTimeException invalid input format
      */
     @Override
     public void execute() throws OperationException, InvalidTimeIntervalException, CalendarDateException, CalendarTimeException {

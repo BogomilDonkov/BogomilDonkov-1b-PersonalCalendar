@@ -31,7 +31,11 @@ public class Find implements CalendarOperation {
      */
     private Set<CalendarEvent> foundedEvents;
 
-
+    /**
+     * Constructs a Find object with the given calendar and instructions.
+     * @param personalCalendar the calendar instance to add the new event to.
+     * @param instructions the list of instructions containing the information about the event to be booked.
+     */
     public Find(PersonalCalendar personalCalendar, List<String> instructions) {
         foundedEvents=new HashSet<>();
         calendarEvents=personalCalendar.getCalendarEvents();

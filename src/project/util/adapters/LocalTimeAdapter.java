@@ -16,6 +16,12 @@ public final class LocalTimeAdapter extends XmlAdapter<String,LocalTime> {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
     /**
+     * Default constructor
+     */
+    public LocalTimeAdapter(){
+    }
+
+    /**
      * Unmarshalls the specified string into a LocalTime object.
      * @param v the string to unmarshal
      * @return the LocalTime object created from the string

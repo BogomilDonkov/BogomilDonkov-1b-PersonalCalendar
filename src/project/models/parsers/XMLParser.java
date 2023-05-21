@@ -19,10 +19,16 @@ import java.util.Set;
 public final class XMLParser implements FileParser<PersonalCalendar> {
 
     /**
+     * Default constructor
+     */
+    public XMLParser(){}
+
+
+    /**
      * Reads the specified XML file and returns a set of CalendarEvents contained in the file.
-     * @param path the path of the file to read.
+     * @param file the path of the file to read.
      * @return a set of CalendarEvents contained in the file.
-     * @throws JAXBException if there is an error reading the file.
+     * @throws OperationException if there is an error reading the file.
      */
     public PersonalCalendar readFile(File file) throws OperationException {
         PersonalCalendar personalCalendar;
@@ -39,7 +45,7 @@ public final class XMLParser implements FileParser<PersonalCalendar> {
 
     /**
      * Writes the calendar object to the specified XML file.
-     * @throws JAXBException if there is an error writing to the file.
+     * @throws OperationException if there is an error writing to the file.
      */
     public void writeFile(PersonalCalendar personalCalendar,File file) throws OperationException {
 

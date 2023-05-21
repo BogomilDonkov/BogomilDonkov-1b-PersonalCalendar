@@ -16,6 +16,11 @@ public final class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     /**
+     * Default constructor
+     */
+    public LocalDateAdapter(){}
+
+    /**
      * Converts a string representation of LocalDate to LocalDate object.
      * @param v String representation of LocalDate to be converted.
      * @return LocalDate object corresponding to the input string representation.

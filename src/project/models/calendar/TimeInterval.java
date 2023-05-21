@@ -25,13 +25,16 @@ public class TimeInterval {
     private LocalTime endTime;
 
 
-
+    /**
+     * Default constructor
+     */
     public TimeInterval() {}
 
     /**
      * Constructs a new TimeGap instance with the specified start and end times.
      * @param startTime the start time of the time interval.
      * @param endTime the end time of the time interval.
+     * @throws InvalidTimeIntervalException invalid time interval
      */
     public TimeInterval(LocalTime startTime, LocalTime endTime) throws InvalidTimeIntervalException {
 
@@ -66,6 +69,7 @@ public class TimeInterval {
     /**
      * Sets the start time of the time interval represented by this TimeGap instance.
      * @param startTime the new start time.
+     * @throws InvalidTimeIntervalException invalid time interval
      */
     public void setStartTime(LocalTime startTime) throws InvalidTimeIntervalException {
         if(startTime.isAfter(this.endTime)) {
@@ -85,6 +89,7 @@ public class TimeInterval {
     /**
      * Sets the end time of the time interval represented by this TimeGap instance.
      * @param endTime the new end time.
+     * @throws InvalidTimeIntervalException invalid time interval
      */
     public void setEndTime(LocalTime endTime) throws InvalidTimeIntervalException {
         if(this.startTime.isAfter(endTime)) {

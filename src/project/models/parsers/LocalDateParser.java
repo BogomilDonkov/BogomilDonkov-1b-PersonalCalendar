@@ -1,6 +1,7 @@
 package project.models.parsers;
 
 import project.exceptions.CalendarDateException;
+import project.util.adapters.LocalDateAdapter;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -21,6 +22,14 @@ public final class LocalDateParser {
      * The DateTimeFormatter used to parse and format LocalDate objects.
      */
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
+
+    /**
+     * Default constructor
+     */
+    public LocalDateParser(){
+    }
+
+
 
     /**
      * Parses a string representing a date in the format "dd-MM-yyyy" into a {@link LocalDate} object.

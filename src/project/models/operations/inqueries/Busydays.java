@@ -38,7 +38,12 @@ public class Busydays implements CalendarOperation {
      */
     private Map<DayOfWeek,Duration> busydaysMap;
 
-
+    /**
+     * Constructs a Busydays object with the given calendar and instructions.
+     * @param personalCalendar the calendar instance to add the new event to.
+     * @param instructions the list of instructions containing the information about the event to be booked.
+     * @throws CalendarDateException if the format is invalid
+     */
     public Busydays(PersonalCalendar personalCalendar, List<String> instructions) throws CalendarDateException {
 
         startDate= LocalDateParser.parse(instructions.get(0));

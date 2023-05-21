@@ -90,7 +90,6 @@ public class CalendarEvent  implements CalendarEventService, Comparable<Calendar
      * @param note a note associated with the event
      * @throws InvalidTimeIntervalException if the start time is after the end time
      * @throws CalendarDateException if the provided date is not a valid date
-     * @throws CalendarTimeException if either the start time or end time is not a valid time
      */
     public CalendarEvent(String eventName, LocalDate date, LocalTime startTime, LocalTime endTime, String note) throws InvalidTimeIntervalException, CalendarDateException {
 
@@ -117,7 +116,7 @@ public class CalendarEvent  implements CalendarEventService, Comparable<Calendar
      * @param date a string representing the date of the event in the format of "dd-MM-yyyy"
      * @param startTime a string representing the start time of the event in the format of "HH:mm"
      * @throws CalendarDateException if the provided date is invalid or not a leap year
-     * @throws CalendarTimeException if the provided start time is invalid
+     * @throws InvalidTimeIntervalException if the provided start time is invalid
      */
     public CalendarEvent(LocalDate date, LocalTime startTime) throws CalendarDateException,InvalidTimeIntervalException {
 
@@ -245,7 +244,6 @@ public class CalendarEvent  implements CalendarEventService, Comparable<Calendar
     /**
      * Sets the date of the event
      * @param date a LocalDate object representing the event date
-     * @throws InvalidTimeIntervalException if the new date is invalid based on the event's start and end times
      */
     public void setDate(LocalDate date) {
         this.date = date;
@@ -284,6 +282,7 @@ public class CalendarEvent  implements CalendarEventService, Comparable<Calendar
     /**
      * Sets the end time of the event
      * @param endTime a LocalTime object representing the end time of the event
+     * @throws InvalidTimeIntervalException if the provided end time is invalid
      */
     public void setEndTime(LocalTime endTime) throws InvalidTimeIntervalException {
         timeInterval.setEndTime(endTime);

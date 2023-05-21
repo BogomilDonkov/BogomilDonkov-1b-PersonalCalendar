@@ -40,7 +40,9 @@ public class Unbook implements CalendarOperation {
      * Constructs an instance of the Unbook class with the specified Calendar and ArrayList of instructions.
      * @param personalCalendar The Calendar instance on which the operation will be executed.
      * @param instructions The ArrayList containing the instructions for the operation.
-     */
+     * @throws CalendarTimeException invalid format input
+     * @throws CalendarDateException invalid format input
+     * */
     public Unbook(PersonalCalendar personalCalendar, List<String> instructions) throws CalendarTimeException, CalendarDateException {
 
         this.loadedCalendarEvents=personalCalendar.getCalendarEvents();

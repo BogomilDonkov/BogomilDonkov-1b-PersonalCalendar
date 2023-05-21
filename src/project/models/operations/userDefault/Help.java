@@ -9,6 +9,11 @@ import project.models.operations.Commands;
 public class Help implements DefaultOperation {
 
     /**
+     * Default constructor
+     */
+    public Help(){}
+
+    /**
      * Displays the list of default commands and their descriptions.
      */
     @Override
