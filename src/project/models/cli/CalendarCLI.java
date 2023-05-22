@@ -1,5 +1,6 @@
 package project.models.cli;
 
+import project.contracts.CommandLineInterface;
 import project.contracts.Operation;
 import project.models.calendar.CalendarService;
 import project.models.operations.Commands;
@@ -20,25 +21,43 @@ import java.util.*;
  * The Operation object is then executed and its result is printed to the console.
  * If the Operation object is an instance of the Exit class, the program exits the while loop and terminates.
  */
-public class CalendarCLI {
+public class CalendarCLI implements CommandLineInterface<Commands> {
+
+    private PersonalCalendar personalCalendar;
+    private XMLParser xmlParser;
+    private CalendarService calendarService;
+    private OperationFactory operationFactory;
+    private List<String> inputString;
+    private List<String> instructions;
+
+    private static CalendarCLI instance;
 
     /**
      * Private because we don't want to instantiate this class.
      */
-    private CalendarCLI(){}
+    private CalendarCLI(){
+        personalCalendar =new PersonalCalendar();
+        xmlParser=new XMLParser();
+        calendarService=new CalendarService(personalCalendar,xmlParser);
+        operationFactory=new OperationFactory(calendarService);
+        inputString=new ArrayList<>();
+        instructions=new ArrayList<>();
+    }
+
+
+    public static CalendarCLI getInstance(){
+        if(instance==null){
+            instance=new CalendarCLI();
+        }
+        return instance;
+    }
 
     /**
      * The run method is the main entry point of the CalendarCLI class.
      * It continuously prompts the user for input, creates an Operation object using the input, and executes it by calling its execute method.
      * If the Operation object is an instance of the Exit class, the program terminates.
      */
-    public static void run() {
-        PersonalCalendar personalCalendar =new PersonalCalendar();
-        XMLParser xmlParser=new XMLParser();
-        CalendarService calendarService=new CalendarService(personalCalendar,xmlParser);
-        OperationFactory operationFactory=new OperationFactory(calendarService);
-        List<String> inputString;
-        List<String> instructions;
+    public void run() {
         System.out.println("~ CALENDAR APPLICATION ~\n");
 
         while(true) {
@@ -46,27 +65,8 @@ public class CalendarCLI {
 
             String input= CalendarScanner.scanNextLine();
 
-            if(input.equals(""))
+            if(!processCommand(input)){
                 continue;
-
-            String regex="\\s+(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
-            inputString = Arrays.asList(input.split(regex));
-
-            if(inputString.isEmpty())
-                continue;
-
-            instructions = new ArrayList<>(inputString.subList(1,inputString.size()));
-
-            try {
-                Commands command=parseCommand(inputString.get(0));
-
-                checkInstructionsLength(instructions,command);
-
-                Operation operation=operationFactory.getOperation(command,instructions);
-
-                operation.execute();
-            } catch (CalendarException e) {
-                System.out.println(e.getMessage());
             }
         }
     }
@@ -79,12 +79,57 @@ public class CalendarCLI {
      * @return the corresponding {@link Commands} enum value
      * @throws OperationException if the command is not recognized as an internal command
      */
-    private static Commands parseCommand(String command) throws OperationException {
+    private Commands parseCommand(String command) throws OperationException {
         for(Commands value:Commands.values())
             if(value.getName().equals(command))
                 return Commands.valueOf(command.toUpperCase());
 
         throw new OperationException(command + " is not recognized as an internal command!");
+    }
+
+    /**
+     Checks the validity of the input command.
+     @param input the input command to be checked
+     @return {@code true} if the input command is valid, {@code false} otherwise
+     */
+    private boolean checkInput(String input){
+        if(input.equals(""))
+            return false;
+
+        String regex="\\s+(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
+        inputString = Arrays.asList(input.split(regex));
+
+        if(inputString.isEmpty())
+            return false;
+
+        instructions = new ArrayList<>(inputString.subList(1,inputString.size()));
+
+        return true;
+    }
+
+    /**
+     Processes the given input command.
+     @param input the input command to be processed
+     @return {@code true} if the command was successfully processed, {@code false} otherwise
+     */
+    private boolean processCommand(String input) {
+
+        if(!checkInput(input)){
+            return false;
+        }
+
+        try {
+            Commands command=parseCommand(inputString.get(0));
+
+            checkInstructionsLength(instructions,command);
+
+            Operation operation=operationFactory.getOperation(command,instructions);
+
+            operation.execute();
+        } catch (CalendarException e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
     }
 
     /**
@@ -95,7 +140,7 @@ public class CalendarCLI {
      * @param command the specified command.
      * @throws OperationException if the length of the instructions is not correct for the specified command.
      */
-    private static void checkInstructionsLength(List<String> instructions, Commands command) throws OperationException {
+    private void checkInstructionsLength(List<String> instructions, Commands command) throws OperationException {
         int defaultInstructionsSize=command.getInstructions().split(" ").length;
 
         switch(command){

@@ -15,6 +15,7 @@ public class Main {
      * @param args The command line arguments (not used).
      */
     public static void main(String[] args) {
-        CalendarCLI.run();
+
+        CalendarCLI.getInstance().run();
     }
 }
